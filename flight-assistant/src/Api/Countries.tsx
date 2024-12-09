@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Country } from '../Models/Country';
 
-const API_BASE_URL = 'http://localhost:5208/api/countries';
+const API_BASE_URL = 'http://192.168.50.154:5208/api/countries';
 
 const CountryService = {
   getCountries: async (): Promise<Country[]> => {

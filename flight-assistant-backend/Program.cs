@@ -11,14 +11,21 @@ namespace flight_assistant_backend
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.WebHost.UseUrls("http://0.0.0.0:5208");
+
             builder.Services.AddCors(options =>
-{
-                options.AddPolicy("AllowReactApp", policy =>
+            {
+                options.AddPolicy("AllowLocalNetwork", policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000") // Specify the exact origin
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials(); // Allow credentials like cookies and authentication headers
+                    policy.SetIsOriginAllowed(origin =>
+                    {
+                        // Allow localhost and any IP in the 192.168.x.x range
+                        return origin == "http://localhost:3000" || 
+                            origin.StartsWith("http://192.168.");
+                    })
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
                 });
             });
 
@@ -34,7 +41,7 @@ namespace flight_assistant_backend
             
             var app = builder.Build();
 
-            app.UseCors("AllowReactApp");
+            app.UseCors("AllowLocalNetwork");
 
             if (app.Environment.IsDevelopment())
             {

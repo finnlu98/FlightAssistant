@@ -1,7 +1,7 @@
 import axios from "axios";
 import { TravelDestination } from "../Models/TravelDestination";
 
-const API_BASE_URL = 'http://localhost:5208/api/traveldestinations';
+const API_BASE_URL = 'http://192.168.50.154:5208/api/traveldestinations';
 
 const TravelDestinationService = {
   getTravelDestinations: async (): Promise<TravelDestination[]> => {

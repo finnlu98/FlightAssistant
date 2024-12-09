@@ -1,6 +1,7 @@
 using flight_assistant_backend.Api.Data;
 using flight_assistant_backend.Data.Models;
 using flight_assistant_backend.Hubs;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -20,17 +21,15 @@ namespace flight_assistant_backend.Api
             _hubContext = hubContext;
         }
 
-
         [HttpGet]
         public IEnumerable<Country> Get()
-            {
-                return [.. _context.Countries];
-            }
+        {
+            return [.. _context.Countries];
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody] Country newCountry)
         {
-            // Check if the country already exists in the list
             if (_context.Countries.Any(c => c.Code3 == newCountry.Code3))
             {
                 return Conflict($"Country with code {newCountry.Code3} already exists.");

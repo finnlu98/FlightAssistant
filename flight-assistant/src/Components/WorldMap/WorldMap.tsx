@@ -31,7 +31,7 @@ const WorldMap: React.FC = () => {
 
       useEffect(() => {
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("http://localhost:5208/mapHub", {
+            .withUrl("http://192.168.50.154:5208/mapHub", {
                 withCredentials: true
             })
             .build();
