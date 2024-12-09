@@ -1,6 +1,8 @@
 using flight_assistant_backend.Api.Data;
 using flight_assistant_backend.Data.Models;
+using flight_assistant_backend.Hubs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace flight_assistant_backend.Api
 {
@@ -10,10 +12,12 @@ namespace flight_assistant_backend.Api
     {
 
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<MapHub> _hubContext;
 
-        public CountriesController(ApplicationDbContext context)
+        public CountriesController(ApplicationDbContext context, IHubContext<MapHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
 
@@ -56,7 +60,7 @@ namespace flight_assistant_backend.Api
 
 
         [HttpPut("{code3}")]
-        public IActionResult SetVisited(string code3, [FromBody] bool visited)
+        public async Task<IActionResult> SetVisited(string code3, [FromBody] bool visited)
         {
             var country = _context.Countries.FirstOrDefault(c => c.Code3 == code3);
 
@@ -67,9 +71,10 @@ namespace flight_assistant_backend.Api
 
             country.Visited = visited;
 
-            // Save changes to the database
             _context.Countries.Update(country);
             _context.SaveChanges();
+
+            await _hubContext.Clients.All.SendAsync("CountryUpdated", new { code3, visited });
 
             return Ok($"Country with Code3 '{code3}' has been updated to visited: {visited}.");
         }

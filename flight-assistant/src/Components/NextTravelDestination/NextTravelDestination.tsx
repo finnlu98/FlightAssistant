@@ -1,5 +1,6 @@
-import React from 'react';
-import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import moment, { Moment } from 'moment';
+import TravelDestinationService from '../../Api/TravelDestinations';
 
 
 
@@ -9,19 +10,46 @@ interface NextTravelDestination {
 
 const NextTravelDestination: React.FC<NextTravelDestination> = () => {
 
-    const nextDestination = "Maldives";
-    const dateLeaving = "14/12/2024";
+    const [nextDestination, setNextDestionation] = useState<string>("");
+    const [nextDateTravel, setNextDateTravel] = useState<Moment>(moment());
 
-    // Parse the date and calculate the difference
-    const travelDate = moment(dateLeaving, "DD/MM/YYYY");
+    useEffect(() => {
+        const fetchTravelDestinations = async () => {
+          try {
+            const travelDestinations = await TravelDestinationService.getTravelDestinations();    
+            
+            if(travelDestinations.length === 0) {
+                setNextDestionation("No trips planned, plan a trip gurl...")
+
+                return;
+            }
+            
+            const closestDestination = travelDestinations.reduce((closest, destination) => 
+                moment(destination.travelDate).diff(moment(), 'days') < moment(closest.travelDate).diff(moment(), 'days') ? destination : closest
+            );
+
+            setNextDestionation(closestDestination.country.name);
+            setNextDateTravel(moment(closestDestination.travelDate, "YYYY/MM/DD"));
+
+          } catch (err) {
+            console.error('Error fetching visited countries:', err);
+          }
+        };
+    
+        fetchTravelDestinations();
+      }, []);
+
     const currentDate = moment();
 
-    const diffInDays = travelDate.diff(currentDate, 'days');
-    const diffInWeeks = travelDate.diff(currentDate, 'weeks');
-    const diffInMonths = travelDate.diff(currentDate, 'months');
+    const diffInDays = nextDateTravel.diff(currentDate, 'days');
+    const diffInWeeks = nextDateTravel.diff(currentDate, 'weeks');
+    const diffInMonths = nextDateTravel.diff(currentDate, 'months');
 
     let timeToDisplay;
-    if (diffInMonths >= 1) {
+
+    if (diffInDays === 0) {
+        timeToDisplay = "";
+    } else if (diffInMonths >= 1) {
         timeToDisplay = `${diffInMonths} month${diffInMonths > 1 ? 's' : ''}`;
     } else if (diffInWeeks >= 2) {
         timeToDisplay = `${diffInWeeks} week${diffInWeeks > 1 ? 's' : ''}`;
@@ -32,7 +60,7 @@ const NextTravelDestination: React.FC<NextTravelDestination> = () => {
     return (
         <div>
             <h5>
-                {nextDestination} coming up in {timeToDisplay}..
+                {timeToDisplay} to {nextDestination}..
             </h5>
         </div>
     );

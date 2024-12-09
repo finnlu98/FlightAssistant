@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path='/' element={<MainCard countryIds={countryIds} />} />
           <Route path='/configure' element={<PersonalData countryIds={countryIds}/>}/>
-          <Route path='/destination' element={<TravelDestinations countryIds={countryIds}/>}/>
+          <Route path='/destination' element={<TravelDestinations/>}/>
         </Routes>
       </Router>
       

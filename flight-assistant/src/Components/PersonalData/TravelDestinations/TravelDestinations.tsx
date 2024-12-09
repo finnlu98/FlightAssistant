@@ -1,39 +1,62 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { countries } from '../Countries';
+import { Country, countries } from '../Countries';
 import './TravelDestinations.css';
 import { FaRegPlusSquare } from "react-icons/fa";
 import moment from 'moment';
+import TravelDestinationService from '../../../Api/TravelDestinations';
 
-
-interface TravelDestinationsProps {
-    countryIds : string[]
-}
 
 interface Trip {
     countryCode3: string
     countryName: string
-    travelDate: Date
+    travelDate: string
 }
 
-const TravelDestinations: React.FC<TravelDestinationsProps> = ({ countryIds }) => {
-    const [selectedCountry, setSelectedCountry] = useState<string>("");
+const TravelDestinations: React.FC = () => {
+    const [selectedCountry, setSelectedCountry] = useState<Country | null >(null);
     const [selectedDate, setSelectedDate] = useState<string>("");
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [trips, setTrips] = useState<Trip[]>([]);
 
-    const handleCheckboxChange = (country: string) => {
+
+    useEffect(() => {
+        const fetchTravelDestinations = async () => {
+          try {
+            const travelDestinations = await TravelDestinationService.getTravelDestinations();
+            const formattedDestinations = travelDestinations.map(destination => ({
+                countryCode3: destination.code3,
+                countryName: destination.country.name,
+                travelDate: moment(destination.travelDate).format("YYYY-MM-DD")
+            }));
+
+            setTrips(formattedDestinations);
+
+          } catch (err) {
+            console.error('Error fetching visited countries:', err);
+          }
+        };
+    
+        fetchTravelDestinations();
+      }, []);
+
+
+
+    const handleCheckboxChange = (country: Country) => {
         setSelectedCountry(country);
-        setSearchTerm(country);
+        setSearchTerm(country.name);
     };
 
-    const handleAddClick = (country: string) => {
-        const trip : Trip = {
-            countryCode3 : "test",
-            countryName: country,
-            travelDate: new Date(selectedDate)
-        }
+    const handleAddClick = async () => {
+        const trip: Trip = {
+            countryCode3: selectedCountry ? selectedCountry.code3 : '',
+            countryName: selectedCountry ? selectedCountry.name : '',
+            travelDate: moment(new Date(selectedDate)).format("YYYY-MM-DD") 
+        };
         
+        await TravelDestinationService.addTravelDestination(trip.countryCode3, trip.travelDate);
+
         setTrips((prevTrips) => [...prevTrips, trip]);
+
     }
 
     const filteredCountries = countries.filter((country) => {
@@ -75,7 +98,7 @@ const TravelDestinations: React.FC<TravelDestinationsProps> = ({ countryIds }) =
                             size={50} 
                             color="white"
                             onClick={
-                                () => handleAddClick(searchTerm)
+                                () => handleAddClick()
                             }/>
                     </div>
                     
@@ -85,7 +108,7 @@ const TravelDestinations: React.FC<TravelDestinationsProps> = ({ countryIds }) =
                 <ul className="country-list-select">
                     {filteredCountries.map((country) => (
                         <li key={country.name} className="country-list-item">
-                            <label onClick={() => handleCheckboxChange(country.name)}>
+                            <label onClick={() => handleCheckboxChange(country)}>
                                 
                                 {country.name}
                             </label>
@@ -96,8 +119,8 @@ const TravelDestinations: React.FC<TravelDestinationsProps> = ({ countryIds }) =
             <div>
                 <h2>Upcoming trips</h2>
                 <ul className="country-list-select">
-                    {trips.map((trip) => (
-                        <li key={trip.countryName} className="country-list-item">
+                    {trips.map((trip, index) => (
+                        <li key={index} className="country-list-item">
                             <label>
                                 {trip.countryName} - {moment(trip.travelDate).format("DD.MM.YYYY")}
                             </label>

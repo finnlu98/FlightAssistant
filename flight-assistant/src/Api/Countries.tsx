@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Country } from '../Models/Country';
 
-// Base URL of your .NET API
 const API_BASE_URL = 'http://localhost:5208/api/countries';
 
 const CountryService = {

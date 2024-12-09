@@ -3,6 +3,7 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps"
 import World from './World.json';
 import './WorldMap.css';
 import CountryService from '../../Api/Countries';
+import * as signalR from '@microsoft/signalr';
 
 const WorldMap: React.FC = () => {
 
@@ -27,6 +28,39 @@ const WorldMap: React.FC = () => {
         fetchVisitedCountries();
       }, []);
 
+
+      useEffect(() => {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("http://localhost:5208/mapHub", {
+                withCredentials: true
+            })
+            .build();
+
+        connection.start()
+            .then()
+            .catch(err => console.error("Connection failed:", err));
+
+        connection.on("CountryUpdated", ({ code3, visited }) => {
+            updateMap(code3, visited);
+        });
+
+        return () => {
+            connection.stop();
+        };
+    }, []);
+
+    const updateMap = (code3: string, visited: boolean) => {
+        setCountries((prevCountries) => {
+            if (visited) {
+                if (!prevCountries.includes(code3)) {
+                    return [...prevCountries, code3];
+                }
+            } else {
+                return prevCountries.filter((country) => country !== code3);
+            }
+            return prevCountries;
+        });
+    };
 
     return (
         <div className='container'>

@@ -1,5 +1,6 @@
 using flight_assistant_backend.Api.Data;
 using flight_assistant_backend.Data.Models;
+using flight_assistant_backend.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +39,8 @@ namespace flight_assistant_backend.Api
 
             _context.TravelDestinations.Add(newDestination);
             await _context.SaveChangesAsync();
+
+            
 
             return CreatedAtAction(nameof(CreateTravelDestination), new { code3 = newDestination.Code3, travelDate = newDestination.TravelDate });
         }

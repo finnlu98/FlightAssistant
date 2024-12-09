@@ -1,8 +1,7 @@
 using flight_assistant_backend.Api.Data;
-using Microsoft.AspNetCore.Builder;
+using flight_assistant_backend.Hubs;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+
 
 namespace flight_assistant_backend
 {
@@ -13,12 +12,13 @@ namespace flight_assistant_backend
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddCors(options =>
-            {
+{
                 options.AddPolicy("AllowReactApp", policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000") 
-                        .AllowAnyHeader()                     
-                        .AllowAnyMethod();                    
+                    policy.WithOrigins("http://localhost:3000") // Specify the exact origin
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials(); // Allow credentials like cookies and authentication headers
                 });
             });
 
@@ -29,6 +29,8 @@ namespace flight_assistant_backend
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddSignalR();
             
             var app = builder.Build();
 
@@ -43,6 +45,8 @@ namespace flight_assistant_backend
             app.UseHttpsRedirection();
 
             app.MapControllers();
+
+            app.MapHub<MapHub>("/mapHub");
 
             app.Run();
         }
