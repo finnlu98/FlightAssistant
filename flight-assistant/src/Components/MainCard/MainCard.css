@@ -1,0 +1,57 @@
+.container {
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    display: flex; /* Center the map */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevent overflow */
+    position: relative;
+  }
+
+.horizontal-bar-top {
+  width: 100%;
+  height: 50px; /* Adjust the height as needed */
+  position: absolute;
+  top: 0; /* Align the bar to the top of the div */   
+  color: white;
+  z-index: 1000;
+  display: flex;
+}
+
+.horizontal-bar-top-elements {
+  color: white;
+  padding: 0 2rem; /* Add padding for space on the sides */
+  display: flex;
+  justify-content: space-between; /* Spread elements equally */
+
+  align-items: center;
+  width: 100%;
+  font-size: xx-large;
+}
+
+.horizontal-bar-bottom {
+  width: 100%;
+  height: 70px; /* Adjust the height as needed */
+  background-color: rgba(250, 247, 247, 0.4);
+  position: absolute;
+  bottom: 0; /* Align the bar to the top of the div */   
+  color: white;
+  z-index: 1000;
+  display: flex;
+  backdrop-filter: blur(10px);
+  box-shadow: 2rem;
+}
+
+
+.horizontal-bar-bottom-elements {
+  color: white;
+  padding: 0 2rem; /* Add padding for space on the sides */
+  display: flex;
+  justify-content: space-between; /* Spread elements equally */
+  align-items: center;
+  width: 100%;
+  font-size: xx-large;
+}
+
+
+  
