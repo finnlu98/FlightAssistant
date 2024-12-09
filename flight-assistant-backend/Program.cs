@@ -19,7 +19,6 @@ namespace flight_assistant_backend
                 {
                     policy.SetIsOriginAllowed(origin =>
                     {
-                        // Allow localhost and any IP in the 192.168.x.x range
                         return origin == "http://localhost:3000" || 
                             origin.StartsWith("http://192.168.");
                     })
