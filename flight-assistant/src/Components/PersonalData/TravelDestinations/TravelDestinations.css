@@ -46,12 +46,38 @@
     font-size: 1rem;
 }
 
-.country-list-select {
+.travel-list {
     list-style: none;
     padding: 0;
     width: 450px;
-    overflow-y: auto; 
+    overflow-y: auto;
     flex-grow: 1;
-    align-items: flex-start;
     margin-top: 1rem;
+}
+
+.travel-list-item {
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;  
+    align-items: center;             
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #fafafa;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.travel-list-item label {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;            
+    width: 100%;                    
+}
+
+.delete-icon {
+    cursor: pointer;
+}
+
+.delete-icon:hover {
+    color: red; 
 }

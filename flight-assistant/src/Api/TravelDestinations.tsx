@@ -24,12 +24,13 @@ const TravelDestinationService = {
     }
   },
 
-  deleteTravelDestination: async (destination: TravelDestination): Promise<void> => {
+  deleteTravelDestination: async (code3: string, travelDate: string): Promise<TravelDestination> => {
     try {
-        const response = await axios.put(API_BASE_URL, destination, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
+        const response = await axios.delete<TravelDestination>(API_BASE_URL, {
+            data: {
+                Code3: code3,
+                TravelDate: travelDate
+            }
           });
       return response.data;
     } catch (error) {
