@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { countries } from './Countries';
-import './PersonalData.css';
-import CountryService from '../../Api/Countries';
+import { countries } from '../Countries';
+import './VisitCountries.css';
+import CountryService from '../../../Api/Countries';
 
-interface PersonalDataProps {
-    countryIds : string[]
-}
-
-const PersonalData: React.FC<PersonalDataProps> = ({ countryIds }) => {
+const VisitCountries: React.FC = () => {
     const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -76,4 +72,4 @@ const PersonalData: React.FC<PersonalDataProps> = ({ countryIds }) => {
     );
 };
 
-export default PersonalData
+export default VisitCountries

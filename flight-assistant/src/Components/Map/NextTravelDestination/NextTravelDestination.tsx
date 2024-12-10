@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment, { Moment } from 'moment';
-import TravelDestinationService from '../../Api/TravelDestinations';
+import TravelDestinationService from '../../../Api/TravelDestinations';
 
 
 

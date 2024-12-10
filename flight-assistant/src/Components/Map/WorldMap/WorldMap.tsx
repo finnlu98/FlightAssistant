@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ComposableMap, Geographies, Geography } from "react-simple-maps"
 import World from './World.json';
 import './WorldMap.css';
-import CountryService from '../../Api/Countries';
+import CountryService from '../../../Api/Countries';
 import * as signalR from '@microsoft/signalr';
 
 const WorldMap: React.FC = () => {

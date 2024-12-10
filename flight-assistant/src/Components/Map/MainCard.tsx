@@ -1,11 +1,12 @@
 import React from 'react';
-import WorldMap from '../WorldMap/WorldMap';
-import LiveClock from '../LiveClock/LiveClock';
+import WorldMap from './WorldMap/WorldMap';
+import LiveClock from './LiveClock/LiveClock';
 import { IoIosNotifications } from "react-icons/io";
 import { GiIsland } from "react-icons/gi";
 import './MainCard.css';
 
-import NextTravelDestination from '../NextTravelDestination/NextTravelDestination';
+
+import NextTravelDestination from './NextTravelDestination/NextTravelDestination';
 
 interface MainCardProps {
     countryIds : string[]

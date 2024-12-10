@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import MainCard from './Components/MainCard/MainCard';
+import MainCard from './Components/Map/MainCard';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import PersonalData from './Components/PersonalData/PersonalData';
+import VisitCountries from './Components/PersonalData/VisitCountries/VisitCountries';
 import TravelDestinations from './Components/PersonalData/TravelDestinations/TravelDestinations';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<MainCard countryIds={countryIds} />} />
-          <Route path='/configure' element={<PersonalData countryIds={countryIds}/>}/>
+          <Route path='/configure' element={<VisitCountries/>}/>
           <Route path='/destination' element={<TravelDestinations/>}/>
         </Routes>
       </Router>
