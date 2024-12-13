@@ -42,6 +42,62 @@ namespace flight_assistant_backend.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("flight_assistant_backend.Data.Models.Flight", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ArrivalAirport")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ArrivalTime")
+                        .HasColumnType("timestamp");
+
+                    b.Property<string>("DepartureAirport")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DepartureTime")
+                        .HasColumnType("timestamp");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Flights");
+                });
+
+            modelBuilder.Entity("flight_assistant_backend.Data.Models.FlightQuery", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ArrivalAirport")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DepartureAirport")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DepartureTime")
+                        .HasColumnType("timestamp");
+
+                    b.Property<DateTime>("ReturnTime")
+                        .HasColumnType("timestamp");
+
+                    b.Property<float>("TargetPrice")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlightQueries");
+                });
+
             modelBuilder.Entity("flight_assistant_backend.Data.Models.TravelDestionation", b =>
                 {
                     b.Property<string>("Code3")

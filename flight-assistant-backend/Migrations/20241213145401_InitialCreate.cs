@@ -26,6 +26,38 @@ namespace flight_assistant_backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FlightQueries",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DepartureAirport = table.Column<string>(type: "text", nullable: false),
+                    ArrivalAirport = table.Column<string>(type: "text", nullable: false),
+                    DepartureTime = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    ReturnTime = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    TargetPrice = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlightQueries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Flights",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DepartureAirport = table.Column<string>(type: "text", nullable: false),
+                    ArrivalAirport = table.Column<string>(type: "text", nullable: false),
+                    DepartureTime = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    ArrivalTime = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Flights", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TravelDestinations",
                 columns: table => new
                 {
@@ -47,6 +79,12 @@ namespace flight_assistant_backend.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "FlightQueries");
+
+            migrationBuilder.DropTable(
+                name: "Flights");
+
             migrationBuilder.DropTable(
                 name: "TravelDestinations");
 
