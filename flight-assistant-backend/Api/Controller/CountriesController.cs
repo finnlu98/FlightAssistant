@@ -35,7 +35,7 @@ namespace flight_assistant_backend.Api
                 return Conflict($"Country with code {newCountry.Code3} already exists.");
             }
 
-             _context.Countries.Add(newCountry);
+            _context.Countries.Add(newCountry);
             _context.SaveChanges();
 
             return CreatedAtAction(nameof(Get), newCountry);

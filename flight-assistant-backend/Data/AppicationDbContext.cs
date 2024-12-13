@@ -9,6 +9,11 @@ namespace flight_assistant_backend.Api.Data
 
         public required DbSet<TravelDestionation> TravelDestinations { get; set; }
 
+        public required DbSet<Flight> Flights { get; set;}
+
+        public required DbSet<FlightQuery> FlightQueries { get; set;}
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TravelDestionation>()
@@ -23,8 +28,20 @@ namespace flight_assistant_backend.Api.Data
                 .WithMany()                          
                 .HasForeignKey(td => td.Code3)        
                 .HasPrincipalKey(cv => cv.Code3 );
-        }
 
+            modelBuilder.Entity<Flight>(entity =>
+            {
+                entity.Property(f => f.DepartureTime).HasColumnType("timestamp");
+                entity.Property(f => f.ArrivalTime).HasColumnType("timestamp");
+            });
+
+            modelBuilder.Entity<FlightQuery>(entity =>
+            {
+                entity.Property(f => f.DepartureTime).HasColumnType("timestamp");
+                entity.Property(f => f.ReturnTime).HasColumnType("timestamp");
+            });
+
+        }
     }
 
 }

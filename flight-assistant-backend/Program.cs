@@ -1,6 +1,8 @@
 using flight_assistant_backend.Api.Data;
+using flight_assistant_backend.Api.Service;
 using flight_assistant_backend.Hubs;
 using Microsoft.EntityFrameworkCore;
+using DotNetEnv;
 
 
 namespace flight_assistant_backend
@@ -9,6 +11,8 @@ namespace flight_assistant_backend
     {
         public static void Main(string[] args)
         {
+            Env.Load();
+
             var builder = WebApplication.CreateBuilder(args);
 
             builder.WebHost.UseUrls("http://0.0.0.0:5208");
@@ -29,6 +33,13 @@ namespace flight_assistant_backend
             });
 
             builder.Services.AddControllers(); 
+
+            builder.Services.AddHttpClient<FlightFinderService>();
+            builder.Services.AddScoped<FlightFinderService>();
+
+            builder.Services.AddHostedService<FlightDataScheduler>();
+
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

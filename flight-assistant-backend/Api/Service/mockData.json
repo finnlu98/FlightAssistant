@@ -1,0 +1,857 @@
+{
+    "search_metadata": {
+        "id": "6759a41235fd83e69756bf9a",
+        "status": "Success",
+        "json_endpoint": "https://serpapi.com/searches/efa426418a386690/6759a41235fd83e69756bf9a.json",
+        "created_at": "2024-12-11 14:39:14 UTC",
+        "processed_at": "2024-12-11 14:39:14 UTC",
+        "google_flights_url": "https://www.google.com/travel/flights?hl=en&gl=us&curr=NOK&tfs=CBwQAhoeEgoyMDI0LTEyLTEyagcIARIDT1NMcgcIARIDQ0RHGh4SCjIwMjQtMTItMThqBwgBEgNDREdyBwgBEgNPU0xCAQFIAXABmAEB",
+        "raw_html_file": "https://serpapi.com/searches/efa426418a386690/6759a41235fd83e69756bf9a.html",
+        "prettify_html_file": "https://serpapi.com/searches/efa426418a386690/6759a41235fd83e69756bf9a.prettify",
+        "total_time_taken": 11.99
+    },
+    "search_parameters": {
+        "engine": "google_flights",
+        "hl": "en",
+        "gl": "us",
+        "departure_id": "OSL",
+        "arrival_id": "CDG",
+        "outbound_date": "2024-12-12",
+        "return_date": "2024-12-18",
+        "currency": "NOK",
+        "deep_search": true
+    },
+    "best_flights": [
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 08:40"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-12 11:05"
+                    },
+                    "duration": 145,
+                    "airplane": "Boeing 737",
+                    "airline": "Norwegian",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/DY.png",
+                    "travel_class": "Economy",
+                    "flight_number": "DY 1494",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "Carbon emissions estimate: 129 kg"
+                    ]
+                }
+            ],
+            "total_duration": 145,
+            "carbon_emissions": {
+                "this_flight": 129000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 8
+            },
+            "price": 2605,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/DY.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "Ticket changes for a fee",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZ1pFV1RFME9UUWFDZ2l0RkJBQUdnTk9UMHM0SEhEMnRnRT0iLFtbIk9TTCIsIjIwMjQtMTItMTIiLCJDREciLG51bGwsIkRZIiwiMTQ5NCJdXV0="
+        },
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 06:20"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-12 09:05"
+                    },
+                    "duration": 165,
+                    "airplane": "Airbus A319",
+                    "airline": "Air France",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AF.png",
+                    "travel_class": "Economy",
+                    "flight_number": "AF 1275",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "Wi-Fi for a fee",
+                        "In-seat USB outlet",
+                        "Carbon emissions estimate: 143 kg"
+                    ]
+                }
+            ],
+            "total_duration": 165,
+            "carbon_emissions": {
+                "this_flight": 143000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 19
+            },
+            "price": 2781,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AF.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "No ticket changes",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZ1pCUmpFeU56VWFDZ2pkRlJBQUdnTk9UMHM0SEhDa3d3RT0iLFtbIk9TTCIsIjIwMjQtMTItMTIiLCJDREciLG51bGwsIkFGIiwiMTI3NSJdXV0="
+        },
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 17:25"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-12 19:55"
+                    },
+                    "duration": 150,
+                    "airplane": "Airbus A321",
+                    "airline": "Air France",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AF.png",
+                    "travel_class": "Economy",
+                    "flight_number": "AF 1775",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "Wi-Fi for a fee",
+                        "In-seat USB outlet",
+                        "Carbon emissions estimate: 131 kg"
+                    ]
+                }
+            ],
+            "total_duration": 150,
+            "carbon_emissions": {
+                "this_flight": 132000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 10
+            },
+            "price": 2781,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/AF.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "No ticket changes",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZ1pCUmpFM056VWFDZ2pkRlJBQUdnTk9UMHM0SEhDa3d3RT0iLFtbIk9TTCIsIjIwMjQtMTItMTIiLCJDREciLG51bGwsIkFGIiwiMTc3NSJdXV0="
+        },
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 09:00"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-12 11:25"
+                    },
+                    "duration": 145,
+                    "airplane": "Airbus A320neo",
+                    "airline": "Scandinavian Airlines",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/SK.png",
+                    "travel_class": "Economy",
+                    "flight_number": "SK 837",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "In-seat USB outlet",
+                        "Carbon emissions estimate: 121 kg"
+                    ]
+                }
+            ],
+            "total_duration": 145,
+            "carbon_emissions": {
+                "this_flight": 121000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 1
+            },
+            "price": 4035,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/SK.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "Ticket changes for a fee",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZ1ZUU3pnek54b0tDTU1mRUFBYUEwNVBTemdjY0t1YkFnPT0iLFtbIk9TTCIsIjIwMjQtMTItMTIiLCJDREciLG51bGwsIlNLIiwiODM3Il1dXQ=="
+        }
+    ],
+    "other_flights": [
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 19:50"
+                    },
+                    "arrival_airport": {
+                        "name": "Warsaw Frederic Chopin",
+                        "id": "WAW",
+                        "time": "2024-12-12 21:50"
+                    },
+                    "duration": 120,
+                    "airplane": "Boeing 737",
+                    "airline": "LOT",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/LO.png",
+                    "travel_class": "Economy",
+                    "flight_number": "LO 484",
+                    "legroom": "30 in",
+                    "extensions": [
+                        "Average legroom (30 in)",
+                        "In-seat power outlet",
+                        "Stream media to your device",
+                        "Carbon emissions estimate: 104 kg"
+                    ]
+                },
+                {
+                    "departure_airport": {
+                        "name": "Warsaw Frederic Chopin",
+                        "id": "WAW",
+                        "time": "2024-12-13 07:20"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-13 09:55"
+                    },
+                    "duration": 155,
+                    "airplane": "Boeing 737MAX 8 Passenger",
+                    "airline": "LOT",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/LO.png",
+                    "travel_class": "Economy",
+                    "flight_number": "LO 331",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "In-seat power & USB outlets",
+                        "Stream media to your device",
+                        "Carbon emissions estimate: 108 kg"
+                    ]
+                }
+            ],
+            "layovers": [
+                {
+                    "duration": 570,
+                    "name": "Warsaw Frederic Chopin",
+                    "id": "WAW",
+                    "overnight": true
+                }
+            ],
+            "total_duration": 845,
+            "carbon_emissions": {
+                "this_flight": 213000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 78
+            },
+            "price": 2588,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/LO.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "Ticket changes for a fee",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZ3RNVHpRNE5IeE1Uek16TVJvS0NKd1VFQUFhQTA1UFN6Z2NjTjIxQVE9PSIsW1siT1NMIiwiMjAyNC0xMi0xMiIsIldBVyIsbnVsbCwiTE8iLCI0ODQiXSxbIldBVyIsIjIwMjQtMTItMTMiLCJDREciLG51bGwsIkxPIiwiMzMxIl1dXQ=="
+        },
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 16:40"
+                    },
+                    "arrival_airport": {
+                        "name": "Milano Malpensa Airport",
+                        "id": "MXP",
+                        "time": "2024-12-12 19:20"
+                    },
+                    "duration": 160,
+                    "airline": "easyJet",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/U2.png",
+                    "travel_class": "Economy",
+                    "flight_number": "U2 3974",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "Carbon emissions estimate: 147 kg"
+                    ]
+                },
+                {
+                    "departure_airport": {
+                        "name": "Milano Malpensa Airport",
+                        "id": "MXP",
+                        "time": "2024-12-13 06:25"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-13 08:00"
+                    },
+                    "duration": 95,
+                    "airline": "easyJet",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/U2.png",
+                    "travel_class": "Economy",
+                    "flight_number": "U2 3805",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "Carbon emissions estimate: 69 kg"
+                    ]
+                }
+            ],
+            "layovers": [
+                {
+                    "duration": 665,
+                    "name": "Milano Malpensa Airport",
+                    "id": "MXP",
+                    "overnight": true
+                }
+            ],
+            "total_duration": 920,
+            "carbon_emissions": {
+                "this_flight": 217000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 81
+            },
+            "price": 2714,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/U2.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "Ticket changes for a fee",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZzFWTWpNNU56UjhWVEl6T0RBMUdnb0ltaFVRQUJvRFRrOUxPQnh3eXI0QiIsW1siT1NMIiwiMjAyNC0xMi0xMiIsIk1YUCIsbnVsbCwiVTIiLCIzOTc0Il0sWyJNWFAiLCIyMDI0LTEyLTEzIiwiQ0RHIixudWxsLCJVMiIsIjM4MDUiXV1d"
+        },
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 10:10"
+                    },
+                    "arrival_airport": {
+                        "name": "Milano Malpensa Airport",
+                        "id": "MXP",
+                        "time": "2024-12-12 12:50"
+                    },
+                    "duration": 160,
+                    "airline": "Norwegian",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/DY.png",
+                    "travel_class": "Economy",
+                    "flight_number": "DY 1876",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "Carbon emissions estimate: 146 kg"
+                    ]
+                },
+                {
+                    "departure_airport": {
+                        "name": "Milano Malpensa Airport",
+                        "id": "MXP",
+                        "time": "2024-12-12 15:45"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-12 17:15"
+                    },
+                    "duration": 90,
+                    "airline": "easyJet",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/U2.png",
+                    "travel_class": "Economy",
+                    "flight_number": "U2 3809",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "Carbon emissions estimate: 77 kg"
+                    ]
+                }
+            ],
+            "layovers": [
+                {
+                    "duration": 175,
+                    "name": "Milano Malpensa Airport",
+                    "id": "MXP"
+                }
+            ],
+            "total_duration": 425,
+            "carbon_emissions": {
+                "this_flight": 223000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 86
+            },
+            "price": 3732,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/multi.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "Ticket changes for a fee",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZzFFV1RFNE56WjhWVEl6T0RBNUdnb0lsQjBRQUJvRFRrOUxPQnh3aUlZQyIsW1siT1NMIiwiMjAyNC0xMi0xMiIsIk1YUCIsbnVsbCwiRFkiLCIxODc2Il0sWyJNWFAiLCIyMDI0LTEyLTEyIiwiQ0RHIixudWxsLCJVMiIsIjM4MDkiXV1d"
+        },
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 15:10"
+                    },
+                    "arrival_airport": {
+                        "name": "Copenhagen Airport",
+                        "id": "CPH",
+                        "time": "2024-12-12 16:25"
+                    },
+                    "duration": 75,
+                    "airplane": "Airbus A320neo",
+                    "airline": "Scandinavian Airlines",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/SK.png",
+                    "travel_class": "Economy",
+                    "flight_number": "SK 1471",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "In-seat USB outlet",
+                        "Carbon emissions estimate: 67 kg"
+                    ]
+                },
+                {
+                    "departure_airport": {
+                        "name": "Copenhagen Airport",
+                        "id": "CPH",
+                        "time": "2024-12-12 17:25"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-12 19:20"
+                    },
+                    "duration": 115,
+                    "airplane": "Airbus A320neo",
+                    "airline": "Scandinavian Airlines",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/SK.png",
+                    "travel_class": "Economy",
+                    "flight_number": "SK 559",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "In-seat USB outlet",
+                        "Carbon emissions estimate: 100 kg"
+                    ]
+                }
+            ],
+            "layovers": [
+                {
+                    "duration": 60,
+                    "name": "Copenhagen Airport",
+                    "id": "CPH"
+                }
+            ],
+            "total_duration": 250,
+            "carbon_emissions": {
+                "this_flight": 167000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 39
+            },
+            "price": 4688,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/SK.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "Ticket changes for a fee",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZ3hUU3pFME56RjhVMHMxTlRrYUNnalFKQkFBR2dOT1QwczRISENZeVFJPSIsW1siT1NMIiwiMjAyNC0xMi0xMiIsIkNQSCIsbnVsbCwiU0siLCIxNDcxIl0sWyJDUEgiLCIyMDI0LTEyLTEyIiwiQ0RHIixudWxsLCJTSyIsIjU1OSJdXV0="
+        },
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 15:15"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-12 17:45"
+                    },
+                    "duration": 150,
+                    "airplane": "Airbus A320neo",
+                    "airline": "Scandinavian Airlines",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/SK.png",
+                    "travel_class": "Economy",
+                    "flight_number": "SK 839",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "In-seat USB outlet",
+                        "Carbon emissions estimate: 121 kg"
+                    ]
+                }
+            ],
+            "total_duration": 150,
+            "carbon_emissions": {
+                "this_flight": 121000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 1
+            },
+            "price": 4735,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/SK.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "Ticket changes for a fee",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZ1ZUU3pnek9Sb0tDUDhrRUFBYUEwNVBTemdjY0wvTUFnPT0iLFtbIk9TTCIsIjIwMjQtMTItMTIiLCJDREciLG51bGwsIlNLIiwiODM5Il1dXQ=="
+        }
+    ],
+    "price_insights": {
+        "lowest_price": 2588,
+        "price_level": "typical",
+        "typical_price_range": [
+            1550,
+            3250
+        ],
+        "price_history": [
+            [
+                1728684000,
+                902
+            ],
+            [
+                1728770400,
+                902
+            ],
+            [
+                1728856800,
+                902
+            ],
+            [
+                1728943200,
+                886
+            ],
+            [
+                1729029600,
+                969
+            ],
+            [
+                1729116000,
+                969
+            ],
+            [
+                1729202400,
+                969
+            ],
+            [
+                1729288800,
+                988
+            ],
+            [
+                1729375200,
+                1006
+            ],
+            [
+                1729461600,
+                1005
+            ],
+            [
+                1729548000,
+                1004
+            ],
+            [
+                1729634400,
+                1004
+            ],
+            [
+                1729720800,
+                1004
+            ],
+            [
+                1729807200,
+                1005
+            ],
+            [
+                1729893600,
+                1117
+            ],
+            [
+                1729980000,
+                1216
+            ],
+            [
+                1730070000,
+                1217
+            ],
+            [
+                1730156400,
+                1217
+            ],
+            [
+                1730242800,
+                1217
+            ],
+            [
+                1730329200,
+                1219
+            ],
+            [
+                1730415600,
+                1219
+            ],
+            [
+                1730502000,
+                1208
+            ],
+            [
+                1730588400,
+                1207
+            ],
+            [
+                1730674800,
+                1208
+            ],
+            [
+                1730761200,
+                1208
+            ],
+            [
+                1730847600,
+                1206
+            ],
+            [
+                1730934000,
+                1202
+            ],
+            [
+                1731020400,
+                1214
+            ],
+            [
+                1731106800,
+                1216
+            ],
+            [
+                1731193200,
+                1216
+            ],
+            [
+                1731279600,
+                1227
+            ],
+            [
+                1731366000,
+                1340
+            ],
+            [
+                1731452400,
+                1362
+            ],
+            [
+                1731538800,
+                1362
+            ],
+            [
+                1731625200,
+                1452
+            ],
+            [
+                1731711600,
+                1453
+            ],
+            [
+                1731798000,
+                1453
+            ],
+            [
+                1731884400,
+                1505
+            ],
+            [
+                1731970800,
+                1567
+            ],
+            [
+                1732057200,
+                1646
+            ],
+            [
+                1732143600,
+                1648
+            ],
+            [
+                1732230000,
+                1572
+            ],
+            [
+                1732316400,
+                1497
+            ],
+            [
+                1732402800,
+                1497
+            ],
+            [
+                1732489200,
+                1377
+            ],
+            [
+                1732575600,
+                1380
+            ],
+            [
+                1732662000,
+                1383
+            ],
+            [
+                1732748400,
+                1651
+            ],
+            [
+                1732834800,
+                1724
+            ],
+            [
+                1732921200,
+                1728
+            ],
+            [
+                1733007600,
+                1726
+            ],
+            [
+                1733094000,
+                1597
+            ],
+            [
+                1733180400,
+                1695
+            ],
+            [
+                1733266800,
+                1694
+            ],
+            [
+                1733353200,
+                1818
+            ],
+            [
+                1733439600,
+                2121
+            ],
+            [
+                1733526000,
+                2121
+            ],
+            [
+                1733612400,
+                2343
+            ],
+            [
+                1733698800,
+                2343
+            ],
+            [
+                1733785200,
+                2343
+            ],
+            [
+                1733871600,
+                2588
+            ]
+        ]
+    },
+    "airports": [
+        {
+            "departure": [
+                {
+                    "airport": {
+                        "id": "OSL",
+                        "name": "Oslo lufthavn"
+                    },
+                    "city": "Oslo",
+                    "country": "Norway",
+                    "country_code": "NO",
+                    "image": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ3VNUpih1nif6AajWdtEOUqHO1cbjnrJ8SYg1gJi091bqk6LdPL6TyJRgbUs77vgSbH-Q-rBzA70I2gQ",
+                    "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTrxQT65WjouoxpgOt5BFDL5q9_N1vLCUgzF5rh1_qioaIBVCThwokvLwM7eT9hqZw6fF48-ANQopTQVVeOLgyWjYLdjVyd74UDp0p79cg"
+                }
+            ],
+            "arrival": [
+                {
+                    "airport": {
+                        "id": "CDG",
+                        "name": "Paris Charles de Gaulle Airport"
+                    },
+                    "city": "Paris",
+                    "country": "France",
+                    "country_code": "FR",
+                    "image": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQGx8ii2KbSDdbdzfKye5oDN2bwBA6audqI7XUEf2iMRZezpn_ZbQe1ZIuvUSH-8XOMe958umDwSsAF1w",
+                    "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSyQJ-woNs0iO22mPSkmRUM5gcsTbbYeypQ6BBTeFxXr90mqTxZl57Fdq2CDuLn4w7cKZ8TT9_zZhOpF57rIpA7yWKQnqKvkKIf9Y-qJDo"
+                }
+            ]
+        },
+        {
+            "departure": [
+                {
+                    "airport": {
+                        "id": "CDG",
+                        "name": "Paris Charles de Gaulle Airport"
+                    },
+                    "city": "Paris",
+                    "country": "France",
+                    "country_code": "FR",
+                    "image": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQGx8ii2KbSDdbdzfKye5oDN2bwBA6audqI7XUEf2iMRZezpn_ZbQe1ZIuvUSH-8XOMe958umDwSsAF1w",
+                    "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSyQJ-woNs0iO22mPSkmRUM5gcsTbbYeypQ6BBTeFxXr90mqTxZl57Fdq2CDuLn4w7cKZ8TT9_zZhOpF57rIpA7yWKQnqKvkKIf9Y-qJDo"
+                }
+            ],
+            "arrival": [
+                {
+                    "airport": {
+                        "id": "OSL",
+                        "name": "Oslo lufthavn"
+                    },
+                    "city": "Oslo",
+                    "country": "Norway",
+                    "country_code": "NO",
+                    "image": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ3VNUpih1nif6AajWdtEOUqHO1cbjnrJ8SYg1gJi091bqk6LdPL6TyJRgbUs77vgSbH-Q-rBzA70I2gQ",
+                    "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTrxQT65WjouoxpgOt5BFDL5q9_N1vLCUgzF5rh1_qioaIBVCThwokvLwM7eT9hqZw6fF48-ANQopTQVVeOLgyWjYLdjVyd74UDp0p79cg"
+                }
+            ]
+        }
+    ]
+}
