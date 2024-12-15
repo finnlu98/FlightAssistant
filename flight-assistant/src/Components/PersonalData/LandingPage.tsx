@@ -9,7 +9,7 @@ const LandingPage: React.FC = () => {
 
     return (
         <div className="landing-page-wrapper">
-        <h1 className="title">Pernilles`s Flight Assistant 3000</h1>
+        <h1 className="title">Pernille`s Flight Assistant 3000</h1>
         <FaPlaneDeparture className="plane-icon" />
         <div className="landing-page-container">
             <div>
@@ -25,9 +25,9 @@ const LandingPage: React.FC = () => {
                 </a>
             </div>
             <div>
-                <a href='#'>
+                <a href='flights'>
                     <IoPaperPlane className="icon" />
-                    <h2>Plan Queries</h2>
+                    <h2>Flights</h2>
                 </a>
 
             </div>

@@ -30,6 +30,8 @@ namespace flight_assistant_backend.Api.Controller;
         [HttpPost]
         public IActionResult Post([FromBody] FlightQuery newQuery)
         {
+            newQuery.Id = default;
+
             if (_context.FlightQueries.Any(c =>
                 c.DepartureAirport == newQuery.DepartureAirport &&
                 c.ArrivalAirport == newQuery.ArrivalAirport &&

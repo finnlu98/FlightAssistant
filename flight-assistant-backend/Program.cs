@@ -3,6 +3,7 @@ using flight_assistant_backend.Api.Service;
 using flight_assistant_backend.Hubs;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
+using flight_assistant_backend.Data;
 
 
 namespace flight_assistant_backend
@@ -48,6 +49,8 @@ namespace flight_assistant_backend
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddSignalR();
+
+            builder.Services.AddTransient<DatabaseInitializer>();
             
             var app = builder.Build();
 
@@ -64,6 +67,12 @@ namespace flight_assistant_backend
             app.MapControllers();
 
             app.MapHub<MapHub>("/mapHub");
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var initializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
+                initializer.Initialize();
+            }
 
             app.Run();
         }

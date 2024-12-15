@@ -5,6 +5,9 @@ import './WorldMap.css';
 import CountryService from '../../../Api/Countries';
 import * as signalR from '@microsoft/signalr';
 
+const MAP_CONNECTION_URL = `${process.env.REACT_APP_SERVER_MAP_URL}`;
+
+
 const WorldMap: React.FC = () => {
 
     const [countries, setCountries] = useState<string[]>([]);
@@ -31,7 +34,7 @@ const WorldMap: React.FC = () => {
 
       useEffect(() => {
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("http://192.168.50.154:5208/mapHub", {
+            .withUrl(MAP_CONNECTION_URL, {
                 withCredentials: true
             })
             .build();

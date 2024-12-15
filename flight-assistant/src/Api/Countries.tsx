@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Country } from '../Models/Country';
 
-const API_BASE_URL = 'http://flightassistant.local:5208/api/countries';
+const API_BASE_URL = `${process.env.REACT_APP_SERVER_API_URL}/countries`;
 
 const CountryService = {
   getCountries: async (): Promise<Country[]> => {

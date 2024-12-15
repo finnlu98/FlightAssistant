@@ -1,7 +1,9 @@
 import axios from "axios";
 import { TravelDestination } from "../Models/TravelDestination";
 
-const API_BASE_URL = 'http://flightassistant.local:5208/api/traveldestinations';
+const API_BASE_URL = `${process.env.REACT_APP_SERVER_API_URL}/traveldestinations`;
+
+
 
 const TravelDestinationService = {
   getTravelDestinations: async (): Promise<TravelDestination[]> => {
@@ -31,8 +33,8 @@ const TravelDestinationService = {
                 Code3: code3,
                 TravelDate: travelDate
             }
-          });
-      return response.data;
+        });
+        return response.data;
     } catch (error) {
       console.error('Error adding country:', error);
       throw error;
