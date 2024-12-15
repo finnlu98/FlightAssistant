@@ -8,7 +8,11 @@ import * as signalR from '@microsoft/signalr';
 const MAP_CONNECTION_URL = `${process.env.REACT_APP_SERVER_MAP_URL}`;
 
 
-const WorldMap: React.FC = () => {
+interface WorldMapProps {
+    setCountriesVisited: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const WorldMap: React.FC<WorldMapProps> = ({setCountriesVisited}) => {
 
     const [countries, setCountries] = useState<string[]>([]);
 
@@ -23,6 +27,7 @@ const WorldMap: React.FC = () => {
                                         .filter(country => country.visited === true)
                                         .map(country => country.code3);
             setCountries(filteredCountries);
+            setCountriesVisited(filteredCountries.length)
           } catch (err) {
             console.error('Error fetching visited countries:', err);
           }
@@ -54,14 +59,21 @@ const WorldMap: React.FC = () => {
 
     const updateMap = (code3: string, visited: boolean) => {
         setCountries((prevCountries) => {
+            let updatedCountries;
+    
             if (visited) {
                 if (!prevCountries.includes(code3)) {
-                    return [...prevCountries, code3];
+                    updatedCountries = [...prevCountries, code3];
+                } else {
+                    updatedCountries = prevCountries;
                 }
             } else {
-                return prevCountries.filter((country) => country !== code3);
+                updatedCountries = prevCountries.filter((country) => country !== code3);
             }
-            return prevCountries;
+    
+            setCountriesVisited(updatedCountries.length);
+    
+            return updatedCountries;
         });
     };
 
