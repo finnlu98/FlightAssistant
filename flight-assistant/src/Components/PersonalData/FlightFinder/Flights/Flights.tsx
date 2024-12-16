@@ -27,7 +27,17 @@ const Flights: React.FC = () => {
             }
         };
 
+        const notifyReadFlights = async () => {
+            try {
+               await FlightService.notifyReadFlights();
+               
+            } catch (err) {
+                console.error('Error fetching flights:', err);
+            }
+        };
+
         fetchFlights();
+        notifyReadFlights();
     }, []);
 
     function setPopUpOpen() {

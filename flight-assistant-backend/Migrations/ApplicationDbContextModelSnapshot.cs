@@ -62,6 +62,9 @@ namespace flight_assistant_backend.Migrations
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("timestamp");
 
+                    b.Property<bool>("HasTargetPrice")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("LayoverDuration")
                         .HasColumnType("integer");
 

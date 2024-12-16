@@ -1,7 +1,8 @@
 using System.Text.Json;
 using flight_assistant_backend.Api.Data;
 using flight_assistant_backend.Data.Models;
-
+using flight_assistant_backend.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace flight_assistant_backend.Api.Service;
@@ -11,11 +12,16 @@ public class FlightFinderService {
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<FlightFinderService> _logger;
 
-    public FlightFinderService(HttpClient httpClient, ApplicationDbContext dbContext, ILogger<FlightFinderService> logger)
+    private readonly IHubContext<MapHub> _hubContext;
+
+        
+
+    public FlightFinderService(HttpClient httpClient, ApplicationDbContext dbContext, ILogger<FlightFinderService> logger, IHubContext<MapHub> hubContext)
     {
         _httpClient = httpClient;
         _dbContext = dbContext;
         _logger = logger;
+        _hubContext = hubContext;
     }
 
     public async Task<object> GetFlightData()
@@ -32,7 +38,7 @@ public class FlightFinderService {
 
             var jsonContent = await File.ReadAllTextAsync(filePath);
 
-            List<Flight> flights = ParseBestFlights(jsonContent);
+            List<Flight> flights = await ParseBestFlights(jsonContent, 2600);
 
             await _dbContext.Flights.AddRangeAsync(flights);
 
@@ -53,8 +59,7 @@ public class FlightFinderService {
         }
     }
 
-
-    private List<Flight> ParseBestFlights(string jsonContent)
+    private async Task<List<Flight>> ParseBestFlights(string jsonContent, int targetPrice)
     {
 
         Search search = JsonSerializer.Deserialize<Search>(jsonContent, new JsonSerializerOptions
@@ -93,6 +98,7 @@ public class FlightFinderService {
                 SearchUrl = searchUrl,
                 NumberLayovers = 0,
                 LayoverDuration = 0,
+                HasTargetPrice = await EvaluatePrice(bestFlight.price, targetPrice)
             };
             
             var layovers = bestFlight.flights?.Count > 1;
@@ -146,5 +152,22 @@ public class FlightFinderService {
         }
 
         return stringQueries;
+    }
+
+
+    public void GetFlights(string query) {
+
+    }
+
+
+    public async Task<bool> EvaluatePrice(int price, int targetPrice) {
+        
+        if(price <= targetPrice) {
+            await _hubContext.Clients.All.SendAsync("NotifyTargetPrice", new { notifyTargetPrice = true });
+            
+            return true;
+        }
+        
+        return false;
     }
 }

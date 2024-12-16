@@ -10,9 +10,11 @@ const MAP_CONNECTION_URL = `${process.env.REACT_APP_SERVER_MAP_URL}`;
 
 interface WorldMapProps {
     setCountriesVisited: React.Dispatch<React.SetStateAction<number>>;
+    setFoundTargetPrice: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
 
-const WorldMap: React.FC<WorldMapProps> = ({setCountriesVisited}) => {
+const WorldMap: React.FC<WorldMapProps> = ({setCountriesVisited, setFoundTargetPrice}) => {
 
     const [countries, setCountries] = useState<string[]>([]);
 
@@ -39,23 +41,38 @@ const WorldMap: React.FC<WorldMapProps> = ({setCountriesVisited}) => {
 
       useEffect(() => {
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl(MAP_CONNECTION_URL, {
-                withCredentials: true
-            })
-            .build();
-
-        connection.start()
-            .then()
-            .catch(err => console.error("Connection failed:", err));
-
-        connection.on("CountryUpdated", ({ code3, visited }) => {
-            updateMap(code3, visited);
-        });
-
-        return () => {
-            connection.stop();
+          .withUrl(MAP_CONNECTION_URL, {
+            withCredentials: true,
+          })
+          .configureLogging(signalR.LogLevel.Information)
+          .build();
+    
+        const startConnection = async () => {
+          try {
+            await connection.start();
+            console.log('SignalR connected');
+          } catch (err) {
+            console.error('Connection failed:', err);
+            setTimeout(startConnection, 5000);
+          }
         };
-    }, []);
+    
+        startConnection();
+    
+        connection.on('CountryUpdated', ({ code3, visited }) => {
+          updateMap(code3, visited);
+        });
+    
+        connection.on('NotifyTargetPrice', ({ notifyTargetPrice }) => {
+            setFoundTargetPrice(notifyTargetPrice);
+        });
+    
+        return () => {
+          connection.stop()
+            .then(() => console.log('SignalR connection stopped'))
+            .catch(err => console.error('Error stopping connection:', err));
+        };
+      }, []);
 
     const updateMap = (code3: string, visited: boolean) => {
         setCountries((prevCountries) => {
@@ -76,6 +93,7 @@ const WorldMap: React.FC<WorldMapProps> = ({setCountriesVisited}) => {
             return updatedCountries;
         });
     };
+
 
     return (
         <div className='container'>

@@ -12,6 +12,15 @@ const FlightService = {
       console.error('Error fetching flights:', error);
       throw error;
     }
+  },
+
+  notifyReadFlights: async (): Promise<void> => {
+    try {
+      await axios.get(`${API_BASE_URL}/readflights`);
+    } catch (error) {
+      console.error('Error notifying read flights:', error);
+      throw error;
+    }
   }
 
 

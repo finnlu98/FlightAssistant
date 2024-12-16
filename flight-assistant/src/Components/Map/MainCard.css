@@ -52,5 +52,47 @@
   font-size:350%;
 }
 
+/* Container for the notification icon with the circle background */
+.notification-icon-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;             /* Circle size */
+  height: 50px;            /* Circle size */
+  background-color: #ebb9d1; /* Light grey background */
+  border-radius: 50%;      /* Makes it a circle */
+  transition: background-color 0.3s, transform 0.3s;
+}
 
-  
+/* Notification icon styling */
+.notification-icon {
+              /* Default grey color */
+  transition: color 0.3s;
+}
+
+/* Active state for the container when foundTargetPrice is true */
+.notification-icon-container.active {
+  background-color: #ff8181; /* Light red background */
+  animation: pulse 1s infinite;
+}
+
+.notification-icon-container.active .notification-icon {
+  color: #e63946;          /* Bright red color */
+}
+
+/* Add a nice pulse animation to draw attention */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

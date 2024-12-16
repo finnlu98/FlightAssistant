@@ -9,6 +9,7 @@ import NextTravelDestination from './NextTravelDestination/NextTravelDestination
 const MainCard: React.FC = () => {
 
     const [countriesVisited, setCountriesVisited] = useState<number>(0)
+    const [foundTargetPrice, setFoundTargetPrice] = useState<boolean>(false)
 
     return (
         <div>
@@ -16,10 +17,12 @@ const MainCard: React.FC = () => {
                 <div className="horizontal-bar-top">
                     <div className='horizontal-bar-top-elements'>
                         <LiveClock />
-                        <IoIosNotifications />
+                        <div className={`notification-icon-container ${foundTargetPrice ? 'active' : ''}`}>
+                            <IoIosNotifications className="notification-icon" />
+                        </div>
                     </div>     
                 </div>
-                <WorldMap setCountriesVisited={setCountriesVisited}></WorldMap>
+                <WorldMap setCountriesVisited={setCountriesVisited} setFoundTargetPrice={setFoundTargetPrice}></WorldMap>
                 <div className="horizontal-bar-bottom">
                     <div className="horizontal-bar-bottom-elements">
                         <NextTravelDestination></NextTravelDestination>

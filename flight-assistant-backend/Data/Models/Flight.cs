@@ -32,4 +32,7 @@ public class Flight
     [Required]
     public required string SearchUrl {get; set;}
 
+    [Required]
+    public required bool HasTargetPrice {get; set;}
+
 }

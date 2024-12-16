@@ -19,8 +19,6 @@ const NextTravelDestination: React.FC<NextTravelDestination> = () => {
             const travelDestinations = await TravelDestinationService.getTravelDestinations();    
             
             if(travelDestinations.length === 0) {
-                setNextDestionation("No trips planned, plan a trip gurl...")
-
                 return;
             }
             
@@ -59,9 +57,13 @@ const NextTravelDestination: React.FC<NextTravelDestination> = () => {
 
     return (
         <div>
-            <h5>
+            {nextDestination !== "" ? (
+                <h5>
                 {timeToDisplay} to {nextDestination}..
-            </h5>
+                </h5>
+            ) : (
+                <p>No trips planned, you need to plan a trip gurl...</p>
+            )}
         </div>
     );
 };
