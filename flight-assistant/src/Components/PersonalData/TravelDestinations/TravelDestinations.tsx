@@ -5,6 +5,7 @@ import { FaRegPlusSquare } from "react-icons/fa";
 import moment from 'moment';
 import TravelDestinationService from '../../../Api/TravelDestinations';
 import { RiDeleteBin5Line } from "react-icons/ri";
+import HomeButton from '../../Navigation/HomeButton';
 
 
 interface Trip {
@@ -88,6 +89,7 @@ const TravelDestinations: React.FC = () => {
 
     return (
         <div className='country-select-container'>
+            <div><HomeButton /></div>
             <div className="country-select">
                 <div className='country-select-header'>
                     <h2>Select Country to Visit</h2>

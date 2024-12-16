@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { countries } from '../Countries';
 import './VisitCountries.css';
 import CountryService from '../../../Api/Countries';
+import HomeButton from '../../Navigation/HomeButton';
 
 const VisitCountries: React.FC = () => {
     const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
@@ -40,6 +41,7 @@ const VisitCountries: React.FC = () => {
 
     return (
         <div className="country-selector">
+            <div><HomeButton /></div>
             <div className='country-selector-header'>
                 <h2>Select Countries Visited</h2>
 

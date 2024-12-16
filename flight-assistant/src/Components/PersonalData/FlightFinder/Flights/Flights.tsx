@@ -7,6 +7,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
 import FlightQueries from '../FlightQueries/FlightQueries';
 import { FaTimes } from 'react-icons/fa';
+import HomeButton from '../../../Navigation/HomeButton';
 
 
 interface Flights {
@@ -62,7 +63,7 @@ const Flights: React.FC = () => {
         <div className="flight-container">
             <div className='headers'>
                 <div className='headers-elements'>
-                    <div><FaArrowLeft /></div>
+                    <div><HomeButton /></div>
                     <h1>Flight Finder</h1>
                     <div>
                         <button className="edit-button" onClick={() => setPopUpOpen()}>Edit queries</button>  
