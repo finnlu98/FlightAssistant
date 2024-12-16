@@ -56,39 +56,62 @@ public class FlightFinderService {
 
     private List<Flight> ParseBestFlights(string jsonContent)
     {
-        BestFlights bestFlights = JsonSerializer.Deserialize<BestFlights>(jsonContent, new JsonSerializerOptions
+
+        Search search = JsonSerializer.Deserialize<Search>(jsonContent, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         })!;
 
+        var searchUrl = search.search_metadata?.google_flights_url;
+
+        List<BestFlight> bestFlights = search.best_flights;
+
         List<Flight> flights = [];
 
-        if (bestFlights?.best_flights == null || bestFlights.best_flights.Count == 0)
+        if (bestFlights == null || bestFlights.Count == 0 || searchUrl == null)
         {
             _logger.LogWarning("No best flights found in the JSON data.");
             return flights;
         }
 
-        foreach (var bestFlight in bestFlights.best_flights)
+        foreach (var bestFlight in bestFlights)
         {
             var flightDetail = bestFlight.flights?.FirstOrDefault();
 
-            if (flightDetail == null)
-            {
-                _logger.LogWarning("No flight details found in one of the best flights entries.");
-                continue;
+            if(flightDetail == null) {
+                _logger.LogWarning("No best flights found in the JSON data.");
+                return flights;
             }
 
-            flights.Add(new Flight
-            {
+            var flight = new Flight {
                 DepartureAirport = flightDetail.departure_airport?.id ?? "Unknown",
                 ArrivalAirport = flightDetail.arrival_airport?.id ?? "Unknown",
                 DepartureTime = DateTime.TryParse(flightDetail.departure_airport?.time, out var departureTime) ? departureTime : DateTime.MinValue,
                 ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var arrivalTime) ? arrivalTime : DateTime.MinValue,
-                Price = bestFlight.price
-            });
-        }
+                Price = bestFlight.price,
+                TotalDuration = bestFlight.total_duration,
+                SearchUrl = searchUrl,
+                NumberLayovers = 0,
+                LayoverDuration = 0,
+            };
+            
+            var layovers = bestFlight.flights?.Count > 1;
 
+            if(layovers) {
+                flightDetail = bestFlight.flights?.LastOrDefault();
+
+                if(flightDetail != null && bestFlight.layovers != null) {
+                    flight.ArrivalAirport = flightDetail.arrival_airport.id;
+                    flight.ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var endArrivalTime) ? endArrivalTime : DateTime.MinValue;
+                    flight.LayoverDuration = bestFlight.layovers?.Sum(l => l.duration) ?? 0; 
+                    flight.NumberLayovers = bestFlight.layovers?.Count ?? 0;
+                }
+                
+            }
+            
+            flights.Add(flight);
+        }
+            
         return flights;
     }
 

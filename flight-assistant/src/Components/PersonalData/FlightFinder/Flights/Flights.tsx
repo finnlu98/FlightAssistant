@@ -34,6 +34,20 @@ const Flights: React.FC = () => {
         setIsPopUpOpen(!isPopupOpen)
     }
 
+    function formatDuration(totalMinutes : number) {
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        return `${hours}h ${minutes}m`;
+    }
+
+    function formatType(numberLayovers : number, layoverDuration : number) {
+        if(numberLayovers == 0) {
+            return "Direct"
+        }
+
+        return `${numberLayovers} layovers (${formatDuration(layoverDuration)})`;
+    }
+
     return (
         <div className="flight-container">
             <div className='headers'>
@@ -49,11 +63,15 @@ const Flights: React.FC = () => {
                 <table cellPadding="10" cellSpacing="0">
                     <thead>
                         <tr>
-                            <th>Departure Airport</th>
-                            <th>Arrival Airport</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
                             <th>Departure Time</th>
                             <th>Arrival Time</th>
+                            <th>Duration</th>
+                            <th>Type</th>
                             <th>Price</th>
+
+
                             
                         </tr>
                     </thead>
@@ -65,7 +83,9 @@ const Flights: React.FC = () => {
                                     <td>{flight.arrivalAirport}</td>
                                     <td>{moment(flight.departureTime).format('YYYY-MM-DD HH:mm')}</td>
                                     <td>{moment(flight.arrivalTime).format('YYYY-MM-DD HH:mm')}</td>
-                                    <td className='priceCell'>{flight.price} <a href='#'><FaTelegramPlane /></a></td>
+                                    <td>{formatDuration(flight.totalDuration)}</td>
+                                    <td>{formatType(flight.numberLayovers, flight.layoverDuration) }</td>
+                                    <td className='priceCell'>{flight.price} <a href={flight.searchUrl} target='_blank' rel='noopener noreferrer'><FaTelegramPlane /></a></td>
                                 </tr>
                             ))
                         ) : (

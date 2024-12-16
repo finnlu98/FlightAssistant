@@ -21,4 +21,15 @@ public class Flight
 
     [Required]
     public required float Price {get; set;}
+
+    [Required]
+    public required int TotalDuration {get; set;}
+
+    public int NumberLayovers {get; set;}
+
+    public int LayoverDuration {get; set;}
+
+    [Required]
+    public required string SearchUrl {get; set;}
+
 }

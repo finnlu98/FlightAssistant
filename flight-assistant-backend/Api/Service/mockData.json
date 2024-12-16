@@ -198,7 +198,93 @@
                 "Bag and fare conditions depend on the return flight"
             ],
             "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZ1ZUU3pnek54b0tDTU1mRUFBYUEwNVBTemdjY0t1YkFnPT0iLFtbIk9TTCIsIjIwMjQtMTItMTIiLCJDREciLG51bGwsIlNLIiwiODM3Il1dXQ=="
+        },
+        {
+            "flights": [
+                {
+                    "departure_airport": {
+                        "name": "Oslo lufthavn",
+                        "id": "OSL",
+                        "time": "2024-12-12 19:50"
+                    },
+                    "arrival_airport": {
+                        "name": "Warsaw Frederic Chopin",
+                        "id": "WAW",
+                        "time": "2024-12-12 21:50"
+                    },
+                    "duration": 120,
+                    "airplane": "Boeing 737",
+                    "airline": "LOT",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/LO.png",
+                    "travel_class": "Economy",
+                    "flight_number": "LO 484",
+                    "legroom": "30 in",
+                    "extensions": [
+                        "Average legroom (30 in)",
+                        "In-seat power outlet",
+                        "Stream media to your device",
+                        "Carbon emissions estimate: 104 kg"
+                    ]
+                },
+                {
+                    "departure_airport": {
+                        "name": "Warsaw Frederic Chopin",
+                        "id": "WAW",
+                        "time": "2024-12-13 07:20"
+                    },
+                    "arrival_airport": {
+                        "name": "Paris Charles de Gaulle Airport",
+                        "id": "CDG",
+                        "time": "2024-12-13 09:55"
+                    },
+                    "duration": 155,
+                    "airplane": "Boeing 737MAX 8 Passenger",
+                    "airline": "LOT",
+                    "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/LO.png",
+                    "travel_class": "Economy",
+                    "flight_number": "LO 331",
+                    "legroom": "29 in",
+                    "extensions": [
+                        "Below average legroom (29 in)",
+                        "In-seat power & USB outlets",
+                        "Stream media to your device",
+                        "Carbon emissions estimate: 108 kg"
+                    ]
+                }
+            ],
+            "layovers": [
+                {
+                    "duration": 570,
+                    "name": "Warsaw Frederic Chopin",
+                    "id": "WAW",
+                    "overnight": true
+                },
+                {
+                    "duration": 1000,
+                    "name": "Warsaw Frederic Chopin",
+                    "id": "WAW",
+                    "overnight": true
+                }
+            ],
+            "total_duration": 845,
+            "carbon_emissions": {
+                "this_flight": 213000,
+                "typical_for_this_route": 120000,
+                "difference_percent": 78
+            },
+            "price": 2588,
+            "type": "Round trip",
+            "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/LO.png",
+            "extensions": [
+                "Checked baggage for a fee",
+                "Fare non-refundable, taxes may be refundable",
+                "Ticket changes for a fee",
+                "Bag and fare conditions depend on the return flight"
+            ],
+            "departure_token": "WyJDalJJVjBObWQzcHpkVU52U1VsQlJHdEhXVUZDUnkwdExTMHRMUzB0YjJ0aVozRXlNRUZCUVVGQlIyUmFjRUpqU1ZOM1ZYRkJFZ3RNVHpRNE5IeE1Uek16TVJvS0NKd1VFQUFhQTA1UFN6Z2NjTjIxQVE9PSIsW1siT1NMIiwiMjAyNC0xMi0xMiIsIldBVyIsbnVsbCwiTE8iLCI0ODQiXSxbIldBVyIsIjIwMjQtMTItMTMiLCJDREciLG51bGwsIkxPIiwiMzMxIl1dXQ=="
         }
+        
+        
     ],
     "other_flights": [
         {

@@ -50,7 +50,11 @@ namespace flight_assistant_backend.Migrations
                     ArrivalAirport = table.Column<string>(type: "text", nullable: false),
                     DepartureTime = table.Column<DateTime>(type: "timestamp", nullable: false),
                     ArrivalTime = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Price = table.Column<float>(type: "real", nullable: false)
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    TotalDuration = table.Column<int>(type: "integer", nullable: false),
+                    NumberLayovers = table.Column<int>(type: "integer", nullable: false),
+                    LayoverDuration = table.Column<int>(type: "integer", nullable: false),
+                    SearchUrl = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -5,5 +5,9 @@ export interface Flight {
     departureTime: Date
     arrivalTime: Date
     price: number
+    totalDuration: number
+    numberLayovers: number
+    layoverDuration: number
+    searchUrl: string
 
 }
