@@ -81,22 +81,22 @@ const Flights: React.FC = () => {
                             <th>Duration</th>
                             <th>Type</th>
                             <th>Price</th>
-
-
-                            
                         </tr>
                     </thead>
                     <tbody>
                         {flights.length > 0 ? (
                             flights.map((flight) => (
-                                <tr key={flight.id}>
+                                <tr key={flight.id} className={flight.hasTargetPrice ? 'target-price-met' : ''}>
                                     <td>{flight.departureAirport}</td>
                                     <td>{flight.arrivalAirport}</td>
                                     <td>{moment(flight.departureTime).format('YYYY-MM-DD HH:mm')}</td>
                                     <td>{moment(flight.arrivalTime).format('YYYY-MM-DD HH:mm')}</td>
                                     <td>{formatDuration(flight.totalDuration)}</td>
                                     <td>{formatType(flight.numberLayovers, flight.layoverDuration) }</td>
-                                    <td className='priceCell'>{flight.price} <a href={flight.searchUrl} target='_blank' rel='noopener noreferrer'><FaTelegramPlane /></a></td>
+                                    <td className={`priceCell ${flight.hasTargetPrice ? 'highlight-price' : ''}`}>
+                                        {flight.price} 
+                                        <a href={flight.searchUrl} target='_blank' rel='noopener noreferrer'><FaTelegramPlane /></a>
+                                    </td>
                                 </tr>
                             ))
                         ) : (

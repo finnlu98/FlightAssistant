@@ -9,5 +9,6 @@ export interface Flight {
     numberLayovers: number
     layoverDuration: number
     searchUrl: string
+    hasTargetPrice : boolean
 
 }

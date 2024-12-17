@@ -147,3 +147,13 @@ td {
     transform: scale(1.2);     /* Slightly scale up the icon for a subtle effect */
     filter: drop-shadow(0 2px 4px rgba(220, 20, 2, 0.3));
 }
+
+.target-price-met {
+    border-left: 5px solid #28a745;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.target-price-met .priceCell {
+    color: #28a745;
+}
