@@ -50,10 +50,15 @@ const TravelDestinations: React.FC = () => {
 
     const handleAddClick = async () => {
         const trip: Trip = {
-            countryCode3: selectedCountry ? selectedCountry.code3 : '',
-            countryName: selectedCountry ? selectedCountry.name : '',
-            travelDate: moment(new Date(selectedDate)).format("YYYY-MM-DD") 
+            countryCode3: selectedCountry?.code3?.trim() || '',
+            countryName: selectedCountry?.name?.trim() || '',
+            travelDate: selectedDate ? moment(new Date(selectedDate)).format("YYYY-MM-DD") : ''
         };
+
+        if (!trip.countryCode3 || !trip.countryName || !trip.travelDate) {
+            alert("Please select a valid country and travel date before adding the trip.");
+            return;
+        }
         
         await TravelDestinationService.addTravelDestination(trip.countryCode3, trip.travelDate);
 

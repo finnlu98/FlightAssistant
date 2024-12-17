@@ -46,7 +46,7 @@ const FlightQueries: React.FC = () => {
         setFlightQuery((prev) => ({
             ...prev,
             [name]:
-                name === 'departureTime' || name === 'arrivalTime'
+                name === 'departureTime' || name === 'returnTime'
                     ? new Date(value)
                     : name === 'targetPrice'
                     ? parseFloat(value) || 0
@@ -55,26 +55,42 @@ const FlightQueries: React.FC = () => {
     };
 
     const handleAddFlightQuery = async () => {
-        if (flightQuery.departureAirport && flightQuery.arrivalAirport) {
-            
-            try {
-                var createdFlightQuery : FlightQuery = await FlightQueryService.addFlightQuery(flightQuery);
-
-                setFlightQueries((prev) => [
-                    ...prev,
-                    { ...createdFlightQuery },
-                ]);
-                setFlightQuery({
-                    id: '',
-                    departureAirport: '',
-                    arrivalAirport: '',
-                    departureTime: new Date(),
-                    returnTime: new Date(),
-                    targetPrice: 0,
-                });
-            } catch (error) {
-                console.error("Error adding query", error);
-            }
+        const {
+            departureAirport,
+            arrivalAirport,
+            departureTime,
+            returnTime,
+        } = flightQuery;
+    
+        if (
+            !departureAirport.trim() ||
+            !arrivalAirport.trim() ||
+            !departureTime ||
+            !returnTime
+        ) {
+            alert("Please fill in all fields and ensure the target price is greater than 0.");
+            return;
+        }
+    
+        try {
+            const createdFlightQuery: FlightQuery = await FlightQueryService.addFlightQuery(flightQuery);
+    
+            setFlightQueries((prev) => [
+                ...prev,
+                { ...createdFlightQuery },
+            ]);
+    
+            setFlightQuery({
+                id: '',
+                departureAirport: '',
+                arrivalAirport: '',
+                departureTime: new Date(),
+                returnTime: new Date(),
+                targetPrice: 0,
+            });
+    
+        } catch (error) {
+            console.error("Error adding query:", error);
         }
     };
 
@@ -123,7 +139,7 @@ const FlightQueries: React.FC = () => {
                 />
                 <input
                     type="date"
-                    name="arrivalTime"
+                    name="returnTime"
                     className="query-input"
                     value={flightQuery.returnTime.toISOString().split('T')[0]}
                     onChange={handleChange}
