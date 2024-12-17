@@ -46,13 +46,24 @@
     font-size: 1rem;
 }
 
+.trips-scrollable-container {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    margin: 20px;
+    border: 1px solid #ccc; 
+    border-radius: 8px;     
+    background-color: #f9f9f9; 
+    padding: 10px;
+    overflow: hidden;       
+}
+
 .travel-list {
     list-style: none;
     padding: 0;
     width: 450px;
     overflow-y: auto;
     flex-grow: 1;
-    margin-top: 1rem;
 }
 
 .travel-list-item {

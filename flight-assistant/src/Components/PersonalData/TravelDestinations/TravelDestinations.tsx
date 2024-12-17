@@ -6,6 +6,7 @@ import moment from 'moment';
 import TravelDestinationService from '../../../Api/TravelDestinations';
 import { RiDeleteBin5Line } from "react-icons/ri";
 import HomeButton from '../../Navigation/HomeButton';
+import Flag from '../VisitCountries/Flag';
 
 
 interface Trip {
@@ -129,8 +130,7 @@ const TravelDestinations: React.FC = () => {
                     {filteredCountries.map((country) => (
                         <li key={country.name} className="travel-list-item">
                             <label onClick={() => handleCheckboxChange(country)}>
-                                
-                                {country.name}
+                                {country.name} <div className='flag'><Flag code2={country.code2} /></div> 
                             </label>
                         </li>
                     ))}
@@ -138,23 +138,25 @@ const TravelDestinations: React.FC = () => {
             </div>
             <div>
                 <h2>Upcoming trips</h2>
-                <ul className="travel-list">
-                {trips
-                    .slice() 
-                    .sort((a, b) => moment(a.travelDate).diff(moment(b.travelDate))) 
-                    .map((trip, index) => (
-                        <li key={index} className="travel-list-item">
-                            <label>
-                                <div>
-                                    {trip.countryName} - {moment(trip.travelDate).format("DD.MM.YYYY")}
-                                </div>
-                                <div className='delete-icon'>
-                                    <RiDeleteBin5Line onClick={() => handleDeleteClick(trip.countryCode3, trip.travelDate)} />
-                                </div>
-                            </label>
-                        </li>
-                    ))}
-                </ul>
+                <div className='trips-scrollable-container'>
+                    <ul className="travel-list">
+                    {trips
+                        .slice() 
+                        .sort((a, b) => moment(a.travelDate).diff(moment(b.travelDate))) 
+                        .map((trip, index) => (
+                            <li key={index} className="travel-list-item">
+                                <label>
+                                    <div>
+                                        {trip.countryName} - {moment(trip.travelDate).format("DD.MM.YYYY")}
+                                    </div>
+                                    <div className='delete-icon'>
+                                        <RiDeleteBin5Line onClick={() => handleDeleteClick(trip.countryCode3, trip.travelDate)} />
+                                    </div>
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
         
