@@ -5,13 +5,15 @@ import TravelDestinationService from '../../../Api/TravelDestinations';
 
 
 interface NextTravelDestination {
+    nextDestination : string
+    nextDateTravel : Moment
+    setPlannedTrip : (nextDestination :string, nextTravelDate : Date) => void
     
 }
 
-const NextTravelDestination: React.FC<NextTravelDestination> = () => {
+const NextTravelDestination: React.FC<NextTravelDestination> = ({nextDestination, nextDateTravel, setPlannedTrip}) => {
 
-    const [nextDestination, setNextDestionation] = useState<string>("");
-    const [nextDateTravel, setNextDateTravel] = useState<Moment>(moment());
+    
 
     useEffect(() => {
         const fetchTravelDestinations = async () => {
@@ -26,8 +28,9 @@ const NextTravelDestination: React.FC<NextTravelDestination> = () => {
                 moment(destination.travelDate).diff(moment(), 'days') < moment(closest.travelDate).diff(moment(), 'days') ? destination : closest
             );
 
-            setNextDestionation(closestDestination.country.name);
-            setNextDateTravel(moment(closestDestination.travelDate, "YYYY/MM/DD"));
+            
+            setPlannedTrip(closestDestination.country.name, closestDestination.travelDate);
+            
 
           } catch (err) {
             console.error('Error fetching visited countries:', err);
