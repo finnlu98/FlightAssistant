@@ -64,6 +64,9 @@ const TravelDestinations: React.FC = () => {
 
         setTrips((prevTrips) => [...prevTrips, trip]);
 
+        setSearchTerm("");
+        setSelectedDate("");
+
     }
 
     const handleDeleteClick = async (code3 :string, travelDate: string ) => {
