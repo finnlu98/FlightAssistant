@@ -1,14 +1,18 @@
 public class Search {
     public required SearchMetadata search_metadata {get; set;}
     public required List<BestFlight>  best_flights {get; set;}
+
+    public required PriceInsights price_insights {get; set;}
 }
 
 public class SearchMetadata {
     public required string google_flights_url  {get; set;}
 }
 
-
-
+public class PriceInsights {
+    public required int lowest_price  {get; set;}
+    public required int[] typical_price_range {get; set;}
+}
 
 
 public class BestFlight

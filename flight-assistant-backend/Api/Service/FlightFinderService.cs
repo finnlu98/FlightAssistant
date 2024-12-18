@@ -83,6 +83,8 @@ public class FlightFinderService {
 
         var searchUrl = search.search_metadata?.google_flights_url;
 
+        PriceInsights priceInsights = search.price_insights;
+
         List<BestFlight> bestFlights = search.best_flights;
 
         List<Flight> flights = [];
@@ -113,7 +115,9 @@ public class FlightFinderService {
                 NumberLayovers = 0,
                 LayoverDuration = 0,
                 HasTargetPrice = await EvaluatePrice(bestFlight.price, targetPrice),
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                PriceRange = await ClassifyPrice(bestFlight.price, priceInsights)
+                
             };
             
             var layovers = bestFlight.flights?.Count > 1;
@@ -185,6 +189,40 @@ public class FlightFinderService {
         
         return false;
     }
+
+    public async Task<PriceRange> ClassifyPrice(int price, PriceInsights priceInsights) {
+        
+        List<int> priceRange = [.. priceInsights.typical_price_range];
+
+        int highestPrice = priceRange.Max();
+        int lowestPrice = priceRange.Min();
+
+
+        if (priceRange == null || priceRange.Count <= 1)
+        {
+            throw new ArgumentException("Price list cannot be null or must contain at least two prices.");
+        }
+
+        double range = highestPrice - lowestPrice;
+
+        double lowThreshold = lowestPrice + 0.25 * range;
+
+        double highThreshold = lowestPrice + 0.75 * range;
+
+        if (price <= lowThreshold)
+        {
+            return PriceRange.Low;
+        }
+        else if (price >= highThreshold)
+        {
+            return PriceRange.High;
+        }
+        else
+        {
+            return PriceRange.Normal;
+        }
+    }
+    
 
     public async Task DeleteOldFlights()
     {

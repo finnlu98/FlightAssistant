@@ -38,5 +38,13 @@ public class Flight
     [Required]
     public required DateTime CreatedAt {get; set;}
 
+    public required PriceRange PriceRange {get; set;}
 
+}
+
+public enum PriceRange
+{
+    High,
+    Normal,
+    Low
 }

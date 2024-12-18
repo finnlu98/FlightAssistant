@@ -148,12 +148,34 @@ td {
     filter: drop-shadow(0 2px 4px rgba(220, 20, 2, 0.3));
 }
 
-.target-price-met {
+.low-price {
     border-left: 5px solid #28a745;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.target-price-met .priceCell {
+.low-price .priceCell {
     color: #28a745;
+}
+
+
+.high-price {
+    border-left: 5px solid #e74c3c;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.high-price .priceCell {
+    color: #e74c3c;
+}
+
+
+.priceCell {
+    position: relative;
+}
+
+.priceText {
+    position: relative;
+    display: inline-block; /* To ensure the pseudo-element is sized to the text */
+    padding-bottom: 4px;   /* Optional padding to give space between text and line */
 }

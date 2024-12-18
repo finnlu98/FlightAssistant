@@ -11,4 +11,11 @@ export interface Flight {
     searchUrl: string
     hasTargetPrice : boolean
     createdAt: Date
+    priceRange: PriceRange
+}
+
+export enum PriceRange {
+    High = 0,
+    Normal = 1,
+    Low = 2
 }

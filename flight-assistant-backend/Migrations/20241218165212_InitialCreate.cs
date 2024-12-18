@@ -56,7 +56,8 @@ namespace flight_assistant_backend.Migrations
                     LayoverDuration = table.Column<int>(type: "integer", nullable: false),
                     SearchUrl = table.Column<string>(type: "text", nullable: false),
                     HasTargetPrice = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    PriceRange = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -77,6 +77,9 @@ namespace flight_assistant_backend.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
+                    b.Property<int>("PriceRange")
+                        .HasColumnType("integer");
+
                     b.Property<string>("SearchUrl")
                         .IsRequired()
                         .HasColumnType("text");

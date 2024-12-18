@@ -12,7 +12,7 @@ using flight_assistant_backend.Api.Data;
 namespace flight_assistant_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241218160906_InitialCreate")]
+    [Migration("20241218165212_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -79,6 +79,9 @@ namespace flight_assistant_backend.Migrations
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
+
+                    b.Property<int>("PriceRange")
+                        .HasColumnType("integer");
 
                     b.Property<string>("SearchUrl")
                         .IsRequired()

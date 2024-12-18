@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import FlightService from '../../../../Api/Flights';
-import { Flight } from '../../../../Models/Flight';
+import { Flight, PriceRange } from '../../../../Models/Flight';
 import './Flights.css';
 import moment from 'moment';
 import { FaTelegramPlane } from "react-icons/fa";
 import FlightQueries from '../FlightQueries/FlightQueries';
 import { FaTimes } from 'react-icons/fa';
 import HomeButton from '../../../Navigation/HomeButton';
+import { TbBuildingAirport } from "react-icons/tb";
 
 
 interface Flights {
@@ -56,7 +57,7 @@ const Flights: React.FC = () => {
             return "Direct"
         }
 
-        return `${numberLayovers} layovers (${formatDuration(layoverDuration)})`;
+        return <div>{numberLayovers} <TbBuildingAirport size={20}/> - {formatDuration(layoverDuration)}</div> ;
     }
 
     function sortFlights() {
@@ -95,22 +96,28 @@ const Flights: React.FC = () => {
                             <th>Duration</th>
                             <th>Type</th>
                             <th>Price</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         {flights.length > 0 ? (
                             flights.map((flight) => (
-                                <tr key={flight.id} className={flight.hasTargetPrice ? 'target-price-met' : ''}>
+                                <tr key={flight.id} className={`${flight.priceRange === PriceRange.Low || flight.hasTargetPrice ? 'low-price' : flight.priceRange === PriceRange.High ? 'high-price' : ''}`}>
                                     <td>{flight.departureAirport}</td>
                                     <td>{flight.arrivalAirport}</td>
                                     <td>{moment(flight.departureTime).format('YYYY-MM-DD HH:mm')}</td>
                                     <td>{moment(flight.arrivalTime).format('YYYY-MM-DD HH:mm')}</td>
                                     <td>{formatDuration(flight.totalDuration)}</td>
                                     <td>{formatType(flight.numberLayovers, flight.layoverDuration) }</td>
-                                    <td className={`priceCell ${flight.hasTargetPrice ? 'highlight-price' : ''}`}>
-                                        {flight.price} 
-                                        <a href={flight.searchUrl} target='_blank' rel='noopener noreferrer'><FaTelegramPlane /></a>
+                                    <td className={`priceCell`}>
+                                        <span className="priceText">
+                                            {flight.price}
+                                        </span>
+                                        <a href={flight.searchUrl} target='_blank' rel='noopener noreferrer'>
+                                            <FaTelegramPlane />
+                                        </a>
                                     </td>
+                                    
                                 </tr>
                             ))
                         ) : (
