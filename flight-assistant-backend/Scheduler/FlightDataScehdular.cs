@@ -1,16 +1,21 @@
 using flight_assistant_backend.Api.Controller;
 using flight_assistant_backend.Api.Service;
+using flight_assistant_backend.Api.Settings;
+using Microsoft.Extensions.Options;
 
 public class FlightDataScheduler : BackgroundService, IDisposable
 {
+
+    private readonly QuerySettings _querySettings;
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<FlightDataScheduler> _logger;
     private Timer? _timer;
 
-    public FlightDataScheduler(IServiceProvider serviceProvider, ILogger<FlightDataScheduler> logger)
+    public FlightDataScheduler(IServiceProvider serviceProvider, ILogger<FlightDataScheduler> logger, IOptions<QuerySettings> querySettings)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
+        _querySettings = querySettings.Value;
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -33,7 +38,7 @@ public class FlightDataScheduler : BackgroundService, IDisposable
 
         var initialDelay = scheduledTime - now;
 
-        _timer = new Timer(async _ => await RunTask(), null, initialDelay, TimeSpan.FromDays(1));
+        _timer = new Timer(async _ => await RunTask(), null, initialDelay, TimeSpan.FromDays(_querySettings.QueryPerNDay));
         _logger.LogInformation("Get Flight data task scheduled at: {Time}", scheduledTime);
     }
 

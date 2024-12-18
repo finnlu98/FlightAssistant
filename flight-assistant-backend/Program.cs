@@ -4,6 +4,7 @@ using flight_assistant_backend.Hubs;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 using flight_assistant_backend.Data;
+using flight_assistant_backend.Api.Settings;
 
 
 namespace flight_assistant_backend
@@ -51,6 +52,8 @@ namespace flight_assistant_backend
             builder.Services.AddSignalR();
 
             builder.Services.AddTransient<DatabaseInitializer>();
+
+            builder.Services.Configure<QuerySettings>(builder.Configuration.GetSection("NumberOfQueries"));
             
             var app = builder.Build();
 
