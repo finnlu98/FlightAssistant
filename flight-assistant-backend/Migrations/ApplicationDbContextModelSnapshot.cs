@@ -55,6 +55,9 @@ namespace flight_assistant_backend.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("timestamp");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp");
+
                     b.Property<string>("DepartureAirport")
                         .IsRequired()
                         .HasColumnType("text");

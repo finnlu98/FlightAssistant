@@ -12,7 +12,7 @@ using flight_assistant_backend.Api.Data;
 namespace flight_assistant_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241216145027_InitialCreate")]
+    [Migration("20241218160906_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -56,6 +56,9 @@ namespace flight_assistant_backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("ArrivalTime")
+                        .HasColumnType("timestamp");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp");
 
                     b.Property<string>("DepartureAirport")

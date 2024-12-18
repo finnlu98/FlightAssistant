@@ -33,6 +33,8 @@ namespace flight_assistant_backend.Api.Data
             {
                 entity.Property(f => f.DepartureTime).HasColumnType("timestamp");
                 entity.Property(f => f.ArrivalTime).HasColumnType("timestamp");
+                entity.Property(f => f.CreatedAt).HasColumnType("timestamp");
+
             });
 
             modelBuilder.Entity<FlightQuery>(entity =>

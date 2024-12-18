@@ -125,7 +125,6 @@ const TravelDestinations: React.FC = () => {
                             }/>
                     </div>
                 </div>
-
                 <ul className="travel-list">
                     {filteredCountries.map((country) => (
                         <li key={country.name} className="travel-list-item">

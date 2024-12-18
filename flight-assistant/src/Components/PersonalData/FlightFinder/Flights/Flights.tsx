@@ -3,7 +3,6 @@ import FlightService from '../../../../Api/Flights';
 import { Flight } from '../../../../Models/Flight';
 import './Flights.css';
 import moment from 'moment';
-import { FaArrowLeft } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
 import FlightQueries from '../FlightQueries/FlightQueries';
 import { FaTimes } from 'react-icons/fa';
@@ -23,6 +22,7 @@ const Flights: React.FC = () => {
             try {
                 const storedFlights = await FlightService.getFlights();
                 setFlights(storedFlights);
+                sortFlights();
             } catch (err) {
                 console.error('Error fetching flights:', err);
             }
@@ -58,6 +58,20 @@ const Flights: React.FC = () => {
 
         return `${numberLayovers} layovers (${formatDuration(layoverDuration)})`;
     }
+
+    function sortFlights() {
+        flights.slice().sort((a, b) => {
+            const createdAtComparison = moment(a.createdAt).diff(moment(b.createdAt));
+    
+            if (createdAtComparison !== 0) {
+                return createdAtComparison;
+            }
+    
+            return moment(a.departureTime).diff(moment(b.departureTime));
+        });
+    }
+
+   
 
     return (
         <div className="flight-container">

@@ -35,4 +35,8 @@ public class Flight
     [Required]
     public required bool HasTargetPrice {get; set;}
 
+    [Required]
+    public required DateTime CreatedAt {get; set;}
+
+
 }

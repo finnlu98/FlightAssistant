@@ -10,5 +10,5 @@ export interface Flight {
     layoverDuration: number
     searchUrl: string
     hasTargetPrice : boolean
-
+    createdAt: Date
 }

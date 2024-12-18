@@ -29,7 +29,7 @@ public class FlightDataScheduler : BackgroundService, IDisposable
     {
 
         var now = DateTime.Now;
-        var scheduledTime = DateTime.Today.AddHours(17).AddMinutes(00);
+        var scheduledTime = DateTime.Today.AddHours(17).AddMinutes(16);
 
         if (now > scheduledTime)
         {

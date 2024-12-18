@@ -4,4 +4,6 @@ public class QuerySettings
 {
     public int QueryPerNDay { get; set; }
     public int MaxQueries { get; set; }
+
+    public int deleteNOld { get; set; }
 }

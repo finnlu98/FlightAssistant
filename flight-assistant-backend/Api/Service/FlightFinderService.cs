@@ -1,13 +1,19 @@
 using System.Text.Json;
 using flight_assistant_backend.Api.Data;
+using flight_assistant_backend.Api.Settings;
 using flight_assistant_backend.Data.Models;
 using flight_assistant_backend.Hubs;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace flight_assistant_backend.Api.Service;
 
 public class FlightFinderService {
+
+    private readonly QuerySettings _querySettings;
+
     private readonly HttpClient _httpClient;
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<FlightFinderService> _logger;
@@ -16,18 +22,26 @@ public class FlightFinderService {
 
         
 
-    public FlightFinderService(HttpClient httpClient, ApplicationDbContext dbContext, ILogger<FlightFinderService> logger, IHubContext<MapHub> hubContext)
+    public FlightFinderService(
+        HttpClient httpClient, 
+        ApplicationDbContext dbContext, 
+        ILogger<FlightFinderService> logger, 
+        IHubContext<MapHub> hubContext, 
+        IOptions<QuerySettings> querySettings)
     {
         _httpClient = httpClient;
         _dbContext = dbContext;
         _logger = logger;
         _hubContext = hubContext;
+        _querySettings = querySettings.Value;
     }
 
     public async Task<object> GetFlightData()
     {
         try
         {
+            await DeleteOldFlights();
+
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Api/Service/mockData.json");
 
             if (!File.Exists(filePath))
@@ -98,7 +112,8 @@ public class FlightFinderService {
                 SearchUrl = searchUrl,
                 NumberLayovers = 0,
                 LayoverDuration = 0,
-                HasTargetPrice = await EvaluatePrice(bestFlight.price, targetPrice)
+                HasTargetPrice = await EvaluatePrice(bestFlight.price, targetPrice),
+                CreatedAt = DateTime.Now
             };
             
             var layovers = bestFlight.flights?.Count > 1;
@@ -169,5 +184,26 @@ public class FlightFinderService {
         }
         
         return false;
+    }
+
+    public async Task DeleteOldFlights()
+    {
+        DateTime cutoffDate = DateTime.Now.AddDays(-_querySettings.deleteNOld);
+
+        var oldFlights = _dbContext.Flights
+                                .Where(f => f.CreatedAt < cutoffDate)
+                                .ToList(); 
+
+        if (oldFlights.Count == 0)
+        {
+            _logger.LogInformation($"No queries older than {_querySettings.deleteNOld} days");
+            return;
+        }
+
+        _dbContext.Flights.RemoveRange(oldFlights);
+
+        await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation($"Removed {oldFlights.Count} flight queries older than 15 days.");
     }
 }
