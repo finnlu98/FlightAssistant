@@ -105,8 +105,8 @@ const Flights: React.FC = () => {
                                 <tr key={flight.id} className={`${flight.priceRange === PriceRange.Low || flight.hasTargetPrice ? 'low-price' : flight.priceRange === PriceRange.High ? 'high-price' : ''}`}>
                                     <td>{flight.departureAirport}</td>
                                     <td>{flight.arrivalAirport}</td>
-                                    <td>{moment(flight.departureTime).format('YYYY-MM-DD HH:mm')}</td>
-                                    <td>{moment(flight.arrivalTime).format('YYYY-MM-DD HH:mm')}</td>
+                                    <td>{moment(flight.departureTime).format('MM/DD/YYYY HH:mm')}</td>
+                                    <td>{moment(flight.arrivalTime).format('MM/DD/YYYY HH:mm')}</td>
                                     <td>{formatDuration(flight.totalDuration)}</td>
                                     <td>{formatType(flight.numberLayovers, flight.layoverDuration) }</td>
                                     <td className={`priceCell`}>

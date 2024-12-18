@@ -29,7 +29,7 @@ const TravelDestinations: React.FC = () => {
             const formattedDestinations = travelDestinations.map(destination => ({
                 countryCode3: destination.code3,
                 countryName: destination.country.name,
-                travelDate: moment(destination.travelDate).format("YYYY-MM-DD")
+                travelDate: moment(destination.travelDate).format("MM/DD/YYYY")
             }));
 
             setTrips(formattedDestinations);
@@ -53,7 +53,7 @@ const TravelDestinations: React.FC = () => {
         const trip: Trip = {
             countryCode3: selectedCountry?.code3?.trim() || '',
             countryName: selectedCountry?.name?.trim() || '',
-            travelDate: selectedDate ? moment(new Date(selectedDate)).format("YYYY-MM-DD") : ''
+            travelDate: selectedDate ? moment(new Date(selectedDate)).format("MM/DD/YYYY") : ''
         };
 
         if (!trip.countryCode3 || !trip.countryName || !trip.travelDate) {
@@ -146,7 +146,7 @@ const TravelDestinations: React.FC = () => {
                             <li key={index} className="travel-list-item">
                                 <label>
                                     <div>
-                                        {trip.countryName} - {moment(trip.travelDate).format("DD.MM.YYYY")}
+                                        {trip.countryName} - {moment(trip.travelDate).format("MM/DD/YYYY")}
                                     </div>
                                     <div className='delete-icon'>
                                         <RiDeleteBin5Line onClick={() => handleDeleteClick(trip.countryCode3, trip.travelDate)} />
