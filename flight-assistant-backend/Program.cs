@@ -26,7 +26,8 @@ namespace flight_assistant_backend
                     policy.SetIsOriginAllowed(origin =>
                     {
                         return origin == "http://localhost:3000" || 
-                            origin.StartsWith("http://192.168.");
+                            origin.StartsWith("http://192.168.") ||
+                            origin.StartsWith("http://flightassistant");
                     })
                     .AllowAnyHeader()
                     .AllowAnyMethod()

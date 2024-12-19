@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WorldMap from './WorldMap/WorldMap';
 import LiveClock from './LiveClock/LiveClock';
 import { IoIosNotifications } from "react-icons/io";
@@ -19,6 +19,30 @@ const MainCard: React.FC = () => {
         setNextDestionation(nextDestination);
         setNextDateTravel(moment(nextDate, "YYYY/MM/DD"));
     }
+
+    // Workaround to update text every day
+      useEffect(() => {
+        const shouldReload = () => {
+          const now = moment();
+          return (
+            now.hour() === 2 &&
+            now.minute() === 0 &&
+            now.second() === 0
+          );
+        };
+    
+        const reloadAtTargetHour = () => {
+          if (shouldReload()) {
+            window.location.reload();
+          }
+        };
+    
+        reloadAtTargetHour();
+    
+        const intervalId = setInterval(reloadAtTargetHour, 1000);
+    
+        return () => clearInterval(intervalId);
+      }, []);
 
     return (
         <div>
