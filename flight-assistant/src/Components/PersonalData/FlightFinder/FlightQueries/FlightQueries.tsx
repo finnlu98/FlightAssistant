@@ -168,8 +168,8 @@ const FlightQueries: React.FC = () => {
                         <li key={query.id} className="query-list-item row">
                             <p>{query.departureAirport}</p>
                             <p>{query.arrivalAirport}</p>
-                            <p>{moment(query.departureTime).format('YYYY-MM-DD')}</p>
-                            <p>{moment(query.returnTime).format('YYYY-MM-DD')}</p>
+                            <p>{moment(query.departureTime).format('MM/DD/YYYY')}</p>
+                            <p>{moment(query.returnTime).format('MM/DD/YYYY')}</p>
                             <p>{query.targetPrice.toFixed(0)} NOK</p>
                             <p><div ><RiDeleteBin5Line className='delete-icon' onClick={() => handleRemoveFlightQuery(query.id)}/> </div></p>
                         </li>

@@ -22,3 +22,9 @@ public class FlightQuery
     [Required]
     public required float TargetPrice {get; set;}
 }
+
+public class FlightQueryParse {
+    public required string SearchUrl {get; set;}
+
+    public required float TargetPrice {get; set;}
+}

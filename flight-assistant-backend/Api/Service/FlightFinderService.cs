@@ -3,7 +3,6 @@ using flight_assistant_backend.Api.Data;
 using flight_assistant_backend.Api.Settings;
 using flight_assistant_backend.Data.Models;
 using flight_assistant_backend.Hubs;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -36,23 +35,23 @@ public class FlightFinderService {
         _querySettings = querySettings.Value;
     }
 
-    public async Task<object> GetFlightData()
+    public async Task<List<Flight>> GetFlightData()
     {
         try
         {
             await DeleteOldFlights();
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Api/Service/mockData.json");
+            // string jsonContent = await getMockData();
 
-            if (!File.Exists(filePath))
+            List<FlightQueryParse> quieres = await QueryBuilder();
+
+            List<Flight> flights = [];
+            foreach (var query in quieres)
             {
-                _logger.LogError("Mock data file not found.");
-                return null;
+                string jsonContent = await GetFlights(query.SearchUrl);
+
+                flights.AddRange(await ParseBestFlights(jsonContent, query.TargetPrice));
             }
-
-            var jsonContent = await File.ReadAllTextAsync(filePath);
-
-            List<Flight> flights = await ParseBestFlights(jsonContent, 2600);
 
             await _dbContext.Flights.AddRangeAsync(flights);
 
@@ -64,16 +63,16 @@ public class FlightFinderService {
         catch (HttpRequestException ex)
         {
             _logger.LogError($"Request error: {ex.Message}");
-            return null;
         }
         catch (Exception ex)
         {
             _logger.LogError($"An error occurred: {ex.Message}");
-            return null;
         }
+
+        return [];
     }
 
-    private async Task<List<Flight>> ParseBestFlights(string jsonContent, int targetPrice)
+    private async Task<List<Flight>> ParseBestFlights(string jsonContent, float targetPrice)
     {
 
         Search search = JsonSerializer.Deserialize<Search>(jsonContent, new JsonSerializerOptions
@@ -116,7 +115,7 @@ public class FlightFinderService {
                 LayoverDuration = 0,
                 HasTargetPrice = await EvaluatePrice(bestFlight.price, targetPrice),
                 CreatedAt = DateTime.Now,
-                PriceRange = await ClassifyPrice(bestFlight.price, priceInsights)
+                PriceRange = ClassifyPrice(bestFlight.price, priceInsights)
                 
             };
             
@@ -140,7 +139,7 @@ public class FlightFinderService {
         return flights;
     }
 
-    public async Task<List<string>> QueryBuilder() {
+    public async Task<List<FlightQueryParse>> QueryBuilder() {
         var queries = await _dbContext.FlightQueries.ToListAsync();
 
         var API_KEY = Environment.GetEnvironmentVariable("API_KEY");
@@ -150,7 +149,7 @@ public class FlightFinderService {
             throw new InvalidOperationException("API key is not set in the environment variables.");
         }
 
-        List<string> stringQueries = [];        
+        List<FlightQueryParse> stringQueries = [];        
 
         if (queries == null || queries.Count == 0)
         {
@@ -159,7 +158,6 @@ public class FlightFinderService {
 
         foreach (var flightQuery in queries)
         {
-            
             var departureAirport = flightQuery.DepartureAirport;
             var arrivalAirport = flightQuery.ArrivalAirport;
             var departureDate = flightQuery.DepartureTime.ToString("yyyy-MM-dd");
@@ -167,19 +165,53 @@ public class FlightFinderService {
 
             var stringQuery = $"https://serpapi.com/search.json?engine=google_flights&departure_id={departureAirport}&arrival_id={arrivalAirport}&gl=us&hl=en&currency=NOK&outbound_date={departureDate}&return_date={returnDate}&deep_search=true&api_key={API_KEY}"; 
             
-            stringQueries.Add(stringQuery);
+            stringQueries.Add( new FlightQueryParse {
+                SearchUrl = stringQuery,
+                TargetPrice = flightQuery.TargetPrice
+            } );
         }
 
         return stringQueries;
     }
 
 
-    public void GetFlights(string query) {
+    public async Task<string> GetFlights(string query) {
+        try
+    {
+        _logger.LogInformation($"Fetching flight data from {query}");
 
+        HttpResponseMessage response = await _httpClient.GetAsync(query);
+
+        response.EnsureSuccessStatusCode();
+
+        string responseBody = await response.Content.ReadAsStringAsync();
+        
+        _logger.LogInformation("Successfully fetched flight data.");
+
+        return responseBody;
+    }
+    catch (HttpRequestException e)
+    {
+        _logger.LogError(e, "Error occurred while fetching flight data from {ApiUrl}", query);
+        throw;
+    }
+    }
+
+    public async Task<string> GetMockData() {
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Api/Service/mockData.json");
+
+            if (!File.Exists(filePath))
+            {
+                _logger.LogError("Mock data file not found.");
+            }
+
+        var jsonContent = await File.ReadAllTextAsync(filePath);
+        
+        return jsonContent;
     }
 
 
-    public async Task<bool> EvaluatePrice(int price, int targetPrice) {
+    public async Task<bool> EvaluatePrice(int price, float targetPrice) {
         
         if(price <= targetPrice) {
             await _hubContext.Clients.All.SendAsync("NotifyTargetPrice", new { notifyTargetPrice = true });
@@ -190,7 +222,7 @@ public class FlightFinderService {
         return false;
     }
 
-    public async Task<PriceRange> ClassifyPrice(int price, PriceInsights priceInsights) {
+    public PriceRange ClassifyPrice(int price, PriceInsights priceInsights) {
         
         List<int> priceRange = [.. priceInsights.typical_price_range];
 

@@ -53,7 +53,7 @@ const TravelDestinations: React.FC = () => {
         const trip: Trip = {
             countryCode3: selectedCountry?.code3?.trim() || '',
             countryName: selectedCountry?.name?.trim() || '',
-            travelDate: selectedDate ? moment(new Date(selectedDate)).format("MM/DD/YYYY") : ''
+            travelDate: selectedDate ? moment(new Date(selectedDate)).format("YYYY-MM-DD") : ''
         };
 
         if (!trip.countryCode3 || !trip.countryName || !trip.travelDate) {

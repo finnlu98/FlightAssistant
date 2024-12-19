@@ -122,7 +122,7 @@ const Flights: React.FC = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={5}>No flights available</td>
+                                <td colSpan={7}>No flights available</td>
                             </tr>
                         )}
                     </tbody>

@@ -29,7 +29,7 @@ public class FlightDataScheduler : BackgroundService, IDisposable
     {
 
         var now = DateTime.Now;
-        var scheduledTime = DateTime.Today.AddHours(17).AddMinutes(53);
+        var scheduledTime = DateTime.Today.AddHours(_querySettings.QueryAtHour);
 
         if (now > scheduledTime)
         {
@@ -55,8 +55,7 @@ public class FlightDataScheduler : BackgroundService, IDisposable
                 _logger.LogInformation("Flight data task executed at: {Time}", DateTime.Now);
             }
 
-            // Calculate and log the next scheduled time
-            var nextScheduledTime = DateTime.Now.Date.AddDays(1).AddHours(14).AddMinutes(30);
+            var nextScheduledTime = DateTime.Now.Date.AddDays(_querySettings.QueryPerNDay);
             _logger.LogInformation("Next task scheduled at: {Time}", nextScheduledTime);
         }
         catch (Exception ex)
