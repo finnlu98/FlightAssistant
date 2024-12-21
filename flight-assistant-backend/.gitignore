@@ -2,3 +2,4 @@
 /obj
 /configurationVariables.json
 /.env
+/appsettings.json

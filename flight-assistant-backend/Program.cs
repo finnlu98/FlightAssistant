@@ -13,8 +13,6 @@ namespace flight_assistant_backend
     {
         public static void Main(string[] args)
         {
-            Env.Load();
-
             var builder = WebApplication.CreateBuilder(args);
 
             builder.WebHost.UseUrls("http://0.0.0.0:5208");
@@ -54,7 +52,7 @@ namespace flight_assistant_backend
 
             builder.Services.AddTransient<DatabaseInitializer>();
 
-            builder.Services.Configure<QuerySettings>(builder.Configuration.GetSection("NumberOfQueries"));
+            builder.Services.Configure<QuerySettings>(builder.Configuration.GetSection("QuerySettings"));
             
             var app = builder.Build();
 

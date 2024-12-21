@@ -142,7 +142,9 @@ public class FlightFinderService {
     public async Task<List<FlightQueryParse>> QueryBuilder() {
         var queries = await _dbContext.FlightQueries.ToListAsync();
 
-        var API_KEY = Environment.GetEnvironmentVariable("API_KEY");
+        var API_KEY = _querySettings.ApiKey;
+
+        _logger.LogInformation(API_KEY);
 
         if (string.IsNullOrEmpty(API_KEY))
         {

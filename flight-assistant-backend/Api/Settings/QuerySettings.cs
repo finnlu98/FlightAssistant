@@ -6,5 +6,6 @@ public class QuerySettings
     public int MaxQueries { get; set; }
     public int deleteNOld { get; set; }
     public int QueryAtHour { get; set; }
+    public string? ApiKey {get; set;}
 
 }
