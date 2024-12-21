@@ -8,14 +8,20 @@ const LiveClock = () => {
     useEffect(() => {
         const timerId = setInterval(() => {
             setTime(new Date());
-        }, 1000); // Updates every second
+        }, 1000); 
 
-        return () => clearInterval(timerId); // Cleanup on component unmount
+        return () => clearInterval(timerId); 
     }, []);
+
+    const formatMilitaryTime = (date: Date) => {
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`; 
+    };
 
     return (
         <h5>
-            {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 
+            {formatMilitaryTime(time)}
         </h5>
     );
 };
