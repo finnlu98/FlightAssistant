@@ -56,6 +56,8 @@ namespace flight_assistant_backend
             
             var app = builder.Build();
 
+            app.MapGet("/", () => "Flight Assistant is recieving requests");
+
             app.UseCors("AllowLocalNetwork");
 
             if (app.Environment.IsDevelopment())
