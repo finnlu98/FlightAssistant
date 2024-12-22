@@ -1,8 +1,19 @@
 # Flight Assistant&#x20;
 
-FlightAssistant is a companion application designed to be displayed on your nightstand. With an elegant and compact interface displayed on a small screen, it offers features to help you explore the world, track your travels, and plan your next adventure.
+![Main card of map](./img/main_screen.png)
+
+Flightassistant was designed to keep track of the countries that one has visited through out our lives. FlightAssistant is a companion application that can be displayed on your nightstand or desk, and can be used by any device that can host a website. With an compact interface displayed on a small screen, it offers features to help you explore the world, track your travels, and plan your next adventure.
+
+Here is an example of a raspberry pi model 4 displaying it on a small screen on a desk:
+
+![Main card of map](./img/desk.jpg)
+
 
 ## Features
+
+### Landing page
+
+The features are accessible through a landing page that provides  interaction with all functionalities.
 
 ### 1. Interactive World Map
 
@@ -17,6 +28,7 @@ FlightAssistant is a companion application designed to be displayed on your nigh
 
 - **Country preferences**: Pick specific countries you are interested in visiting, and the application will monitor flight prices for you.
 - **Real-time notifications**: Receive alerts when the server finds great deals for your selected destinations.
+- **Bell on top right corner**: Starts blinking red when a good price has been found
 
 ## Tech Stack
 
@@ -113,14 +125,5 @@ Make sure the user has priveligies to your postgres db.
 
 - Run on any device that can host a website
 
-## Usage
-
-1. Launch the application on your nightstand device.
-2. Log in to your account to start tracking your visited countries and upcoming trips.
-3. Select countries you want to monitor for flight deals.
-4. Receive real-time notifications for deals and keep an eye on your trip countdown.
-
 ---
-
-Start your journey with FlightAssistant today and explore the world with ease!
 
