@@ -65,7 +65,7 @@ const NextTravelDestination: React.FC<NextTravelDestination> = ({nextDestination
                 {timeToDisplay} to {nextDestination}..
                 </h5>
             ) : (
-                <p>No trips planned, you need to plan a trip gurl...</p>
+                <p>You need to plan a trip gurl...</p>
             )}
         </div>
     );
