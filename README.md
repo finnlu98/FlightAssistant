@@ -36,17 +36,16 @@ The features are accessible through a landing page that provides  interaction wi
 ### Backend
 
 - **SQL Database**: Manages data related to visited countries, upcoming trips, and user preferences.
-- **.NET Web API**: Powers the application with secure and efficient endpoints for managing and fetching data.
+- **.NET Web API**: Works as web server
 
 ### Frontend
 
-- **React**:
+- **React**
 
 ### Device Integration
 
 - A small display unit for your nightstand, powered by a Raspberry pi model 4.
-
-
+- The example of the rabpberry pi has the backend and frontend running as linux services, that runs everything on boot.
 
 **API for Flight prices monitoring**
 
