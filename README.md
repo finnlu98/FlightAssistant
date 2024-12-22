@@ -3,7 +3,7 @@
 
 <img src="./img/main_screen.png" alt="Main card of map" width="300" />
 
-Flightassistant was designed to keep track of the countries that one has visited through out our lives. FlightAssistant is a companion application that can be displayed on your nightstand or desk, and can be used by any device that can host a website. With an compact interface displayed on a small screen, it offers features to help you explore the world, track your travels, and plan your next adventure.
+Flightassistant was designed to keep track of the countries that one has visited through out our lives. FlightAssistant is a companion application that can be displayed on your nightstand or desk, and can be used by any device that can host a website. With an compact interface displayed on a small screen, it offers features to help you monitor flight prices to decired locations, explore the world, track your travels, and plan your next adventure.
 
 Here is an example of a raspberry pi model 4 displaying it on a small screen on a desk:
 
