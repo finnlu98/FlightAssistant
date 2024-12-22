@@ -19,7 +19,7 @@ The features are accessible through a landing page that provides  interaction wi
 ### 1. Interactive World Map
 
 - **Colored countries**: Visualize the countries you've visited on a world map.
-- **Personal milestones**: See how many countries you’ve visited.
+- **Personal milestones**: Keep track of how many countries you’ve visited.
 
 ### 2. Trip Countdown
 
