@@ -1,13 +1,20 @@
 # Flight Assistant&#x20;
 
+## To Pernille on Christmas eve
 
-<img src="./img/main_screen.png" alt="Main card of map" width="300" />
+[Download the pdf](./doc/doc_v1.pdf) for background of application and user guide.
+
+
+## Background
+
+<img src="./doc/img/main_screen.png" alt="Main card of map" width="300" />
+
 
 Flight Assistant was designed to keep track of the countries that one has visited through out our lives. Flight Assistant is a companion application that can be displayed on your nightstand or desk, and can be used by any device that can host a website. With an compact interface displayed on a small screen, it offers features to help you monitor flight prices to desired locations, explore the world, track your travels, and plan your next adventure.
 
 Here is an example of a raspberry pi model 4 displaying it on a small screen on a desk:
 
-<img src="./img/desk.jpg" alt="Main card of map" width="300" />
+<img src="./doc/img/desk.jpg" alt="Main card of map" width="300" />
 
 
 ## Features
