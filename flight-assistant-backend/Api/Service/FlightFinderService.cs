@@ -37,28 +37,35 @@ public class FlightFinderService {
 
     public async Task<List<Flight>> GetFlightData()
     {
+        var flights = new List<Flight>();
+
+
         try
         {
             await DeleteOldFlights();
 
-            // string jsonContent = await getMockData();
+            List<FlightQueryParse> queries = await QueryBuilder();
 
-            List<FlightQueryParse> quieres = await QueryBuilder();
-
-            List<Flight> flights = [];
-            foreach (var query in quieres)
+            foreach (var query in queries)
             {
-                string jsonContent = await GetFlights(query.SearchUrl);
+                try
+                {
+                    string jsonContent = await GetFlights(query.SearchUrl);
+                    var parsedFlights = await ParseFlights(jsonContent, query.TargetPrice);
+                    flights.AddRange(parsedFlights);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error processing query {query.SearchUrl}: {ex.Message}");
+                }
 
-                flights.AddRange(await ParseBestFlights(jsonContent, query.TargetPrice));
+                await Task.Delay(2000);
             }
 
             await _dbContext.Flights.AddRangeAsync(flights);
-
             await _dbContext.SaveChangesAsync();
 
             return flights;
-
         }
         catch (HttpRequestException ex)
         {
@@ -66,13 +73,13 @@ public class FlightFinderService {
         }
         catch (Exception ex)
         {
-            _logger.LogError($"An error occurred: {ex.Message}");
+            _logger.LogError($"An unexpected error occurred: {ex.Message}");
         }
 
-        return [];
+        return flights;
     }
 
-    private async Task<List<Flight>> ParseBestFlights(string jsonContent, float targetPrice)
+    private async Task<List<Flight>> ParseFlights(string jsonContent, float targetPrice)
     {
 
         Search search = JsonSerializer.Deserialize<Search>(jsonContent, new JsonSerializerOptions
@@ -80,64 +87,81 @@ public class FlightFinderService {
             PropertyNameCaseInsensitive = true
         })!;
 
-        var searchUrl = search.search_metadata?.google_flights_url;
+        string? searchUrl = search.search_metadata?.google_flights_url;
 
         PriceInsights priceInsights = search.price_insights;
 
-        List<BestFlight> bestFlights = search.best_flights;
+        List<BestFlight>? bestFlights = search?.best_flights;
+        List<OtherFlight>? otherFlights = search?.other_flights;
 
         List<Flight> flights = [];
 
-        if (bestFlights == null || bestFlights.Count == 0 || searchUrl == null)
-        {
-            _logger.LogWarning("No best flights found in the JSON data.");
-            return flights;
-        }
-
-        foreach (var bestFlight in bestFlights)
-        {
-            var flightDetail = bestFlight.flights?.FirstOrDefault();
-
-            if(flightDetail == null) {
-                _logger.LogWarning("No best flights found in the JSON data.");
-                return flights;
+        if(searchUrl != null) {
+            if(bestFlights != null && bestFlights.Count > 1 ) {
+                flights.AddRange(await ParseFlightType(bestFlights.Cast<FlightBase>().ToList(), targetPrice, searchUrl, priceInsights));
             }
 
-            var flight = new Flight {
-                DepartureAirport = flightDetail.departure_airport?.id ?? "Unknown",
-                ArrivalAirport = flightDetail.arrival_airport?.id ?? "Unknown",
-                DepartureTime = DateTime.TryParse(flightDetail.departure_airport?.time, out var departureTime) ? departureTime : DateTime.MinValue,
-                ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var arrivalTime) ? arrivalTime : DateTime.MinValue,
-                Price = bestFlight.price,
-                TotalDuration = bestFlight.total_duration,
-                SearchUrl = searchUrl,
-                NumberLayovers = 0,
-                LayoverDuration = 0,
-                HasTargetPrice = await EvaluatePrice(bestFlight.price, targetPrice),
-                CreatedAt = DateTime.Now,
-                PriceRange = ClassifyPrice(bestFlight.price, priceInsights)
-                
-            };
-            
-            var layovers = bestFlight.flights?.Count > 1;
-
-            if(layovers) {
-                flightDetail = bestFlight.flights?.LastOrDefault();
-
-                if(flightDetail != null && bestFlight.layovers != null) {
-                    flight.ArrivalAirport = flightDetail.arrival_airport.id;
-                    flight.ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var endArrivalTime) ? endArrivalTime : DateTime.MinValue;
-                    flight.LayoverDuration = bestFlight.layovers?.Sum(l => l.duration) ?? 0; 
-                    flight.NumberLayovers = bestFlight.layovers?.Count ?? 0;
-                }
-                
+            if(otherFlights != null && otherFlights.Count > 1 && bestFlights == null) {
+                flights.AddRange(await ParseFlightType(otherFlights.Cast<FlightBase>().ToList(), targetPrice, searchUrl, priceInsights));
             }
-            
-            flights.Add(flight);
         }
-            
+
+        if(flights.Count < 1) {
+            _logger.LogInformation("No flights found");
+        }
+
         return flights;
     }
+
+
+        private async Task<List<Flight>> ParseFlightType(List<FlightBase> foundFlights, float targetPrice, string searchUrl, PriceInsights priceInsights) {
+            List<Flight> parsedFlights = [];
+
+            foreach (var foundFlight in foundFlights)
+            {
+                var flightDetail = foundFlight.flights?.FirstOrDefault();
+
+                if(flightDetail == null) {
+                    _logger.LogWarning("No flights found in the JSON data.");
+                    return parsedFlights;
+                }
+
+                var flight = new Flight {
+                    DepartureAirport = flightDetail.departure_airport?.id ?? "Unknown",
+                    ArrivalAirport = flightDetail.arrival_airport?.id ?? "Unknown",
+                    DepartureTime = DateTime.TryParse(flightDetail.departure_airport?.time, out var departureTime) ? departureTime : DateTime.MinValue,
+                    ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var arrivalTime) ? arrivalTime : DateTime.MinValue,
+                    Price = foundFlight.price,
+                    TotalDuration = foundFlight.total_duration,
+                    SearchUrl = searchUrl,
+                    NumberLayovers = 0,
+                    LayoverDuration = 0,
+                    HasTargetPrice = await EvaluatePrice(foundFlight.price, targetPrice),
+                    CreatedAt = DateTime.Now,
+                    PriceRange = ClassifyPrice(foundFlight.price, priceInsights)
+                    
+                };
+                
+                var layovers = foundFlight.flights?.Count > 1;
+
+                if(layovers) {
+                    flightDetail = foundFlight.flights?.LastOrDefault();
+
+                    if(flightDetail != null && foundFlight.layovers != null) {
+                        flight.ArrivalAirport = flightDetail.arrival_airport.id;
+                        flight.ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var endArrivalTime) ? endArrivalTime : DateTime.MinValue;
+                        flight.LayoverDuration = foundFlight.layovers?.Sum(l => l.duration) ?? 0; 
+                        flight.NumberLayovers = foundFlight.layovers?.Count ?? 0;
+                    }
+                    
+                }
+                
+                parsedFlights.Add(flight);
+            }
+                
+            return parsedFlights;
+        }
+
 
     public async Task<List<FlightQueryParse>> QueryBuilder() {
         var queries = await _dbContext.FlightQueries.ToListAsync();
@@ -179,28 +203,28 @@ public class FlightFinderService {
 
     public async Task<string> GetFlights(string query) {
         try
-    {
-        _logger.LogInformation($"Fetching flight data from {query}");
+        {
+            _logger.LogInformation($"Fetching flight data from {query}");
 
-        HttpResponseMessage response = await _httpClient.GetAsync(query);
+            HttpResponseMessage response = await _httpClient.GetAsync(query);
 
-        response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
 
-        string responseBody = await response.Content.ReadAsStringAsync();
-        
-        _logger.LogInformation("Successfully fetched flight data.");
+            string responseBody = await response.Content.ReadAsStringAsync();
+            
+            _logger.LogInformation("Successfully fetched flight data.");
 
-        return responseBody;
-    }
-    catch (HttpRequestException e)
-    {
-        _logger.LogError(e, "Error occurred while fetching flight data from {ApiUrl}", query);
-        throw;
-    }
+            return responseBody;
+        }
+        catch (HttpRequestException e)
+        {
+            _logger.LogError(e, "Error occurred while fetching flight data from {ApiUrl}", query);
+            throw;
+        }
     }
 
     public async Task<string> GetMockData() {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Api/Service/mockData.json");
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Api/Service/mockDataOther.json");
 
             if (!File.Exists(filePath))
             {
