@@ -8,6 +8,9 @@ import FlightQueries from '../FlightQueries/FlightQueries';
 import { FaTimes } from 'react-icons/fa';
 import HomeButton from '../../../Navigation/HomeButton';
 import { TbBuildingAirport } from "react-icons/tb";
+import { IoIosRocket } from "react-icons/io";
+
+
 
 
 interface Flights {
@@ -54,22 +57,24 @@ const Flights: React.FC = () => {
 
     function formatType(numberLayovers : number, layoverDuration : number) {
         if(numberLayovers == 0) {
-            return "Direct"
+            return <div><IoIosRocket size={18}/> (Direct)</div>
         }
 
-        return <div>{numberLayovers} <TbBuildingAirport size={20}/> - {formatDuration(layoverDuration)}</div> ;
+        return <div>{numberLayovers} <TbBuildingAirport size={20}/> ({formatDuration(layoverDuration)})</div> ;
     }
 
-    function sortFlights() {
-        flights.slice().sort((a, b) => {
-            const createdAtComparison = moment(a.createdAt).diff(moment(b.createdAt));
-    
+    function sortFlights() { 
+        var sortedFlights = flights.slice().sort((a, b) => {
+            const createdAtComparison = moment(b.createdAt).diff(moment(a.createdAt));
+            
             if (createdAtComparison !== 0) {
                 return createdAtComparison;
             }
-    
+            
             return moment(a.departureTime).diff(moment(b.departureTime));
         });
+
+        setFlights(sortedFlights)
     }
 
    
