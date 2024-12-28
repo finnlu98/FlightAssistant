@@ -25,8 +25,10 @@ const Flights: React.FC = () => {
         const fetchFlights = async () => {
             try {
                 const storedFlights = await FlightService.getFlights();
-                setFlights(storedFlights);
-                sortFlights();
+                //setFlights(storedFlights);
+
+                sortFlights(storedFlights);
+
             } catch (err) {
                 console.error('Error fetching flights:', err);
             }
@@ -63,8 +65,8 @@ const Flights: React.FC = () => {
         return <div>{numberLayovers} <TbBuildingAirport size={20}/> ({formatDuration(layoverDuration)})</div> ;
     }
 
-    function sortFlights() { 
-        var sortedFlights = flights.slice().sort((a, b) => {
+    function sortFlights(storedFlights: Flight[]) { 
+        var sortedFlights = storedFlights.slice().sort((a, b) => {
             const createdAtComparison = moment(b.createdAt).diff(moment(a.createdAt));
             
             if (createdAtComparison !== 0) {
@@ -76,8 +78,6 @@ const Flights: React.FC = () => {
 
         setFlights(sortedFlights)
     }
-
-   
 
     return (
         <div className="flight-container">
