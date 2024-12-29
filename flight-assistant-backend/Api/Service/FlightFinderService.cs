@@ -95,11 +95,11 @@ public class FlightFinderService {
         List<ParsedFlight> flights = [];
 
         if(searchUrl != null) {
-            if(bestFlights != null && bestFlights.Count > 1 ) {
+            if(bestFlights != null && bestFlights.Count > 0 ) {
                 flights.AddRange(await ParseFlightType(bestFlights.Cast<FlightBase>().ToList(), targetPrice, searchUrl, priceInsights));
             }
 
-            if(otherFlights != null && otherFlights.Count > 1 && bestFlights == null) {
+            if(otherFlights != null && otherFlights.Count > 0 && bestFlights == null) {
                 flights.AddRange(await ParseFlightType(otherFlights.Cast<FlightBase>().ToList(), targetPrice, searchUrl, priceInsights));
             }
         }
