@@ -51,7 +51,12 @@ public class FlightDataScheduler : BackgroundService, IDisposable
                 var flightFinderService = scope.ServiceProvider.GetRequiredService<FlightFinderService>();
                 var flightData = await flightFinderService.GetFlightData();
 
-                _logger.LogInformation(flightData?.ToString() ?? "No flight data available.");
+                if(flightData) {
+                  _logger.LogInformation("Flight data collection succeded.");
+                } else {
+                    _logger.LogWarning("Flight data not succeeded");
+                }
+                
                 _logger.LogInformation("Flight data task executed at: {Time}", DateTime.Now);
             }
 

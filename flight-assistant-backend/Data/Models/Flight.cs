@@ -40,6 +40,8 @@ public class Flight
 
     public required PriceRange PriceRange {get; set;}
 
+    public virtual List<Layover>? Layovers { get; set; }
+
 }
 
 public enum PriceRange

@@ -19,8 +19,6 @@ public class FlightFinderService {
 
     private readonly IHubContext<MapHub> _hubContext;
 
-        
-
     public FlightFinderService(
         HttpClient httpClient, 
         ApplicationDbContext dbContext, 
@@ -35,11 +33,8 @@ public class FlightFinderService {
         _querySettings = querySettings.Value;
     }
 
-    public async Task<List<Flight>> GetFlightData()
+    public async Task<bool> GetFlightData()
     {
-        var flights = new List<Flight>();
-
-
         try
         {
             await DeleteOldFlights();
@@ -50,9 +45,15 @@ public class FlightFinderService {
             {
                 try
                 {
-                    string jsonContent = await GetFlights(query.SearchUrl);
+                    // string jsonContent = await GetFlights(query.SearchUrl);
+                    string jsonContent = await GetMockData();
                     var parsedFlights = await ParseFlights(jsonContent, query.TargetPrice);
-                    flights.AddRange(parsedFlights);
+                    
+                    await _dbContext.Flights.AddRangeAsync(parsedFlights.Select(f => f.Flight));
+
+                    await _dbContext.Layovers.AddRangeAsync(parsedFlights.Where(f => f.Layovers != null).SelectMany(f => f.Layovers!));
+                   
+                    await _dbContext.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -62,10 +63,7 @@ public class FlightFinderService {
                 await Task.Delay(2000);
             }
 
-            await _dbContext.Flights.AddRangeAsync(flights);
-            await _dbContext.SaveChangesAsync();
-
-            return flights;
+            return true;
         }
         catch (HttpRequestException ex)
         {
@@ -76,10 +74,10 @@ public class FlightFinderService {
             _logger.LogError($"An unexpected error occurred: {ex.Message}");
         }
 
-        return flights;
+        return false;
     }
 
-    private async Task<List<Flight>> ParseFlights(string jsonContent, float targetPrice)
+    private async Task<List<ParsedFlight>> ParseFlights(string jsonContent, float targetPrice)
     {
 
         Search search = JsonSerializer.Deserialize<Search>(jsonContent, new JsonSerializerOptions
@@ -94,7 +92,7 @@ public class FlightFinderService {
         List<BestFlight>? bestFlights = search?.best_flights;
         List<OtherFlight>? otherFlights = search?.other_flights;
 
-        List<Flight> flights = [];
+        List<ParsedFlight> flights = [];
 
         if(searchUrl != null) {
             if(bestFlights != null && bestFlights.Count > 1 ) {
@@ -114,8 +112,8 @@ public class FlightFinderService {
     }
 
 
-        private async Task<List<Flight>> ParseFlightType(List<FlightBase> foundFlights, float targetPrice, string searchUrl, PriceInsights priceInsights) {
-            List<Flight> parsedFlights = [];
+        private async Task<List<ParsedFlight>> ParseFlightType(List<FlightBase> foundFlights, float targetPrice, string searchUrl, PriceInsights priceInsights) {
+            List<ParsedFlight> parsedFlights = [];
 
             foreach (var foundFlight in foundFlights)
             {
@@ -126,42 +124,64 @@ public class FlightFinderService {
                     return parsedFlights;
                 }
 
-                var flight = new Flight {
-                    DepartureAirport = flightDetail.departure_airport?.id ?? "Unknown",
-                    ArrivalAirport = flightDetail.arrival_airport?.id ?? "Unknown",
-                    DepartureTime = DateTime.TryParse(flightDetail.departure_airport?.time, out var departureTime) ? departureTime : DateTime.MinValue,
-                    ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var arrivalTime) ? arrivalTime : DateTime.MinValue,
-                    Price = foundFlight.price,
-                    TotalDuration = foundFlight.total_duration,
-                    SearchUrl = searchUrl,
-                    NumberLayovers = 0,
-                    LayoverDuration = 0,
-                    HasTargetPrice = await EvaluatePrice(foundFlight.price, targetPrice),
-                    CreatedAt = DateTime.Now,
-                    PriceRange = ClassifyPrice(foundFlight.price, priceInsights)
+                var parsedFlight = new ParsedFlight {
+                    Flight =  new Flight {
+                        DepartureAirport = flightDetail.departure_airport?.id ?? "Unknown",
+                        ArrivalAirport = flightDetail.arrival_airport?.id ?? "Unknown",
+                        DepartureTime = DateTime.TryParse(flightDetail.departure_airport?.time, out var departureTime) ? departureTime : DateTime.MinValue,
+                        ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var arrivalTime) ? arrivalTime : DateTime.MinValue,
+                        Price = foundFlight.price,
+                        TotalDuration = foundFlight.total_duration,
+                        SearchUrl = searchUrl,
+                        NumberLayovers = 0,
+                        LayoverDuration = 0,
+                        HasTargetPrice = await EvaluatePrice(foundFlight.price, targetPrice),
+                        CreatedAt = DateTime.Now,
+                        PriceRange = ClassifyPrice(foundFlight.price, priceInsights)
                     
-                };
-                
+                    }
+                }; 
+
                 var layovers = foundFlight.flights?.Count > 1;
 
                 if(layovers) {
                     flightDetail = foundFlight.flights?.LastOrDefault();
 
                     if(flightDetail != null && foundFlight.layovers != null) {
-                        flight.ArrivalAirport = flightDetail.arrival_airport.id;
-                        flight.ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var endArrivalTime) ? endArrivalTime : DateTime.MinValue;
-                        flight.LayoverDuration = foundFlight.layovers?.Sum(l => l.duration) ?? 0; 
-                        flight.NumberLayovers = foundFlight.layovers?.Count ?? 0;
+                        parsedFlight.Flight.ArrivalAirport = flightDetail.arrival_airport.id;
+                        parsedFlight.Flight.ArrivalTime = DateTime.TryParse(flightDetail.arrival_airport?.time, out var endArrivalTime) ? endArrivalTime : DateTime.MinValue;
+                        parsedFlight.Flight.LayoverDuration = foundFlight.layovers?.Sum(l => l.duration) ?? 0; 
+                        parsedFlight.Flight.NumberLayovers = foundFlight.layovers?.Count ?? 0;
+
+                        parsedFlight.Layovers = ParseLayovers(foundFlight, parsedFlight.Flight);
                     }
                     
                 }
-                
-                parsedFlights.Add(flight);
+                parsedFlights.Add(parsedFlight);
             }
                 
             return parsedFlights;
         }
 
+    private List<Layover> ParseLayovers(FlightBase foundFlight, Flight flight) {
+        
+        List<Layover> parsedLayovers = [];
+
+        if(foundFlight.layovers != null) {
+            foreach (var foundLayover in foundFlight.layovers)
+            {
+                var layover = new Layover {
+                    Flight = flight,
+                    Airport = foundLayover.id,
+                    Name = foundLayover.name,
+                    Duration = foundLayover.duration
+                };
+
+                parsedLayovers.Add(layover);
+            }
+        }
+        return parsedLayovers;
+    }
 
     public async Task<List<FlightQueryParse>> QueryBuilder() {
         var queries = await _dbContext.FlightQueries.ToListAsync();

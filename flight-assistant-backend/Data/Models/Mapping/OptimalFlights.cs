@@ -56,5 +56,11 @@ public class AirportInfo
 }
 
 public class Layovers {
+    
     public required int duration { get; set; }
+
+    public required string name { get; set; }
+
+    public required string id { get; set; }
+
 }

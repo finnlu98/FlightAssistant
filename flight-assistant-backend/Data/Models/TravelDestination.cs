@@ -9,7 +9,6 @@ namespace flight_assistant_backend.Data.Models
         [ForeignKey("Category")]
         public required string Code3 { get; set; }
         public virtual Country? Country { get; set; }
-
         public required DateTime TravelDate { get; set; }
     }
 }
