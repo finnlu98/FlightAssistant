@@ -45,8 +45,8 @@ public class FlightFinderService {
             {
                 try
                 {
-                    // string jsonContent = await GetFlights(query.SearchUrl);
-                    string jsonContent = await GetMockData();
+                    string jsonContent = await GetFlights(query.SearchUrl);
+                    //string jsonContent = await GetMockData();
                     var parsedFlights = await ParseFlights(jsonContent, query.TargetPrice);
                     
                     await _dbContext.Flights.AddRangeAsync(parsedFlights.Select(f => f.Flight));
