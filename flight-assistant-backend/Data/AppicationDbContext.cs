@@ -13,6 +13,9 @@ namespace flight_assistant_backend.Api.Data
 
         public required DbSet<FlightQuery> FlightQueries { get; set;}
 
+        public required DbSet<Layover> Layovers { get; set;}
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,12 +40,18 @@ namespace flight_assistant_backend.Api.Data
 
             });
 
+            modelBuilder.Entity<Flight>()
+                .HasMany(f => f.Layovers)       
+                .WithOne(l => l.Flight)         
+                .HasForeignKey(l => l.FlightId) 
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<FlightQuery>(entity =>
             {
                 entity.Property(f => f.DepartureTime).HasColumnType("timestamp");
                 entity.Property(f => f.ReturnTime).HasColumnType("timestamp");
             });
-
+          
         }
     }
 

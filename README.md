@@ -1,21 +1,5 @@
 # Flight Assistant&#x20;
 
-## To Pernille on Christmas eve
-
-[Click here to download the Flight Assistant user guide (PDF)](./doc/doc_v1.pdf).
-
-Below is public documentation.
-
-⋆꙳•̩̩͙❅*̩̩͙‧͙ ‧͙*̩̩͙❆ ͙͛ ˚₊⋆
-
-
-...............................................................................
-
-...............................................................................
-
-...............................................................................
-
-...............................................................................
 ## Background
 
 <img src="./doc/img/main_screen.png" alt="Main card of map" width="300" />

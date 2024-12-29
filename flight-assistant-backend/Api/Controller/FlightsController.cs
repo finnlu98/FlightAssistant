@@ -4,6 +4,7 @@ using flight_assistant_backend.Data.Models;
 using flight_assistant_backend.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace flight_assistant_backend.Api.Controller;
@@ -28,7 +29,7 @@ namespace flight_assistant_backend.Api.Controller;
         [HttpGet]
         public IEnumerable<Flight> Get()
         {
-            return [.. _context.Flights];
+            return [.. _context.Flights.Include(f => f.Layovers)];
         }
 
         [HttpGet("readFlights")]

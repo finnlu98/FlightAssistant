@@ -25,8 +25,6 @@ const Flights: React.FC = () => {
         const fetchFlights = async () => {
             try {
                 const storedFlights = await FlightService.getFlights();
-                //setFlights(storedFlights);
-
                 sortFlights(storedFlights);
 
             } catch (err) {
@@ -51,6 +49,10 @@ const Flights: React.FC = () => {
         setIsPopUpOpen(!isPopupOpen)
     }
 
+    function formatPrice(price: number) {
+        return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} NOK` ;
+    }
+
     function formatDuration(totalMinutes : number) {
         const hours = Math.floor(totalMinutes / 60);
         const minutes = totalMinutes % 60;
@@ -59,11 +61,16 @@ const Flights: React.FC = () => {
 
     function formatType(numberLayovers : number, layoverDuration : number) {
         if(numberLayovers == 0) {
-            return <div><IoIosRocket size={18}/> (Direct)</div>
+            return <div><IoIosRocket size={18}/> Direct</div>
         }
 
-        return <div>{numberLayovers} <TbBuildingAirport size={20}/> ({formatDuration(layoverDuration)})</div> ;
+        return <div><TbBuildingAirport size={18}/> {numberLayovers} stop  ({formatDuration(layoverDuration)})</div> ;
     }
+
+    function calculateWidth(subDuration: number, totalDuration: number) {
+        return `${((subDuration / totalDuration) * 100).toFixed(2)}%`
+    }
+
 
     function sortFlights(storedFlights: Flight[]) { 
         var sortedFlights = storedFlights.slice().sort((a, b) => {
@@ -91,47 +98,60 @@ const Flights: React.FC = () => {
                 </div>
             </div>
             <div className="table-wrapper">
-                <table cellPadding="10" cellSpacing="0">
-                    <thead>
-                        <tr>
-                            <th>Departure</th>
-                            <th>Arrival</th>
-                            <th>Departure Time</th>
-                            <th>Arrival Time</th>
-                            <th>Duration</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {flights.length > 0 ? (
-                            flights.map((flight) => (
-                                <tr key={flight.id} className={`${flight.priceRange === PriceRange.Low || flight.hasTargetPrice ? 'low-price' : flight.priceRange === PriceRange.High ? 'high-price' : ''}`}>
-                                    <td>{flight.departureAirport}</td>
-                                    <td>{flight.arrivalAirport}</td>
-                                    <td>{moment(flight.departureTime).format('MM/DD/YYYY HH:mm')}</td>
-                                    <td>{moment(flight.arrivalTime).format('MM/DD/YYYY HH:mm')}</td>
-                                    <td>{formatDuration(flight.totalDuration)}</td>
-                                    <td>{formatType(flight.numberLayovers, flight.layoverDuration) }</td>
-                                    <td className={`priceCell`}>
-                                        <span className="priceText">
-                                            {flight.price}
-                                        </span>
-                                        <a href={flight.searchUrl} target='_blank' rel='noopener noreferrer'>
-                                            <FaTelegramPlane />
-                                        </a>
-                                    </td>
-                                    
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={7}>No flights available</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                
+                <ul className='flight-list'>
+                    <li className='flight-list-item header'>
+                        <div>Trip</div>
+                        <div>Details</div>
+                        <div>Departure Time</div>
+                        <div></div>
+                        <div>Arrival Time</div>
+                        <div>Price</div>
+                    </li>
+                    {flights.map((flight) => 
+                        <li className='flight-list-item' key={flight.id}>
+                            <div>{flight.arrivalAirport}</div>
+                            <div className='summary'>
+                                <div className='summary-main-text'>{formatDuration(flight.totalDuration) }</div> 
+                                <div className='summary-sub-text'>{formatType(flight.numberLayovers, flight.layoverDuration)}</div> 
+                            </div>
+                            <div>{moment(flight.departureTime).format('D. MMM HH:mm')}</div>
+                            <div className='flight-line'>
+                                <div className='line-container'>
+                                    <span className="line-start">{flight.departureAirport}</span>
+                                    <div className="line">
+                                    {flight.layovers?.length > 0 &&
+                                        flight.layovers.map(layover => (
+                                            <div 
+                                                key={layover.id} 
+                                                className="line-part grey" 
+                                                style={{ width: calculateWidth(layover.duration, flight.totalDuration) }}
+                                            >
+                                                <span className="line-time-grey">{formatDuration(layover.duration)}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <span className="line-end">{flight.arrivalAirport}</span>
+                                </div>
+                            </div>
+
+                            <div>{moment(flight.arrivalTime).format('D. MMM HH:mm')}</div>
+                            <div className='price-container'>
+                                <a href={flight.searchUrl} target="_blank" rel="noopener noreferrer">
+                                    <button className={`go-button ${
+                                        flight.priceRange === PriceRange.Low || flight.hasTargetPrice
+                                            ? 'low-price' 
+                                            : flight.priceRange === PriceRange.High 
+                                            ? 'high-price' 
+                                            : ''
+                                    }`}>
+                                        {formatPrice(flight.price)}
+                                    </button>
+                                </a>
+                            </div> 
+                        </li>
+                    )}
+                </ul>
             </div>
             
             {isPopupOpen &&(

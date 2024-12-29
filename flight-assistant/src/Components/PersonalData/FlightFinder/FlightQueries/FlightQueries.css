@@ -1,4 +1,3 @@
-/* Container to center the list on the page */
 .center-container {
     display: flex;
     justify-content: center;
@@ -15,39 +14,39 @@
 }
 
 .query-input {
-    flex: 0.5;            /* Adjust the flex ratio to make inputs smaller */
-    width: 100%;          /* Ensure they still occupy available space */
-    max-width: 150px;     /* Set a reasonable maximum width */
+    flex: 0.5;            
+    width: 100%;          
+    max-width: 150px;     
     box-sizing: border-box;
-    padding: 6px;         /* Reduce padding to make inputs more compact */
-    font-size: 0.6rem;    /* Slightly smaller font size for tighter spacing */
+    padding: 6px;         
+    font-size: 0.6rem;    
 }
 
 .icon-container {
     display: flex;
-    align-items: center;  /* Vertically centers the icon */
-    justify-content: center;  /* Horizontally centers the icon (optional) */
-    height: 100%;         /* Ensure the container takes full height */
-    margin: 0;            /* Remove default margins for `<p>` */
+    align-items: center;  
+    justify-content: center;  
+    height: 100%;         
+    margin: 0;            
 }
 
 .add-icon {
-    transition: color 0.2s ease, transform 0.2s ease; /* Smooth transition for color and transform changes */
-    cursor: pointer;           /* Change cursor to pointer on hover */
+    transition: color 0.2s ease, transform 0.2s ease; 
+    cursor: pointer;           
 }
 
 .add-icon:hover {
-    color: green;              /* Change the icon color to green on hover */
-    transform: scale(1.2);     /* Slightly scale up the icon for a subtle effect */
-    filter: drop-shadow(0 2px 4px rgba(0, 128, 0, 0.3)); /* Add a soft green shadow */
+    color: green;             
+    transform: scale(1.2);    
+    filter: drop-shadow(0 2px 4px rgba(0, 128, 0, 0.3)); 
 }
 
-/* List item styling using CSS Grid */
+
 .query-list-item {
     display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 6 equal-width columns */
-    gap: 10px;                            /* Spacing between columns */
-    align-items: center;                  /* Align items vertically */
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 10px;                            
+    align-items: center;                  
     padding: 0.75rem 1rem;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
@@ -56,13 +55,13 @@
     margin-bottom: 0.25rem;
 }
 
-/* Header styling */
+
 .query-list-item.header {
     font-weight: bold;
     background-color: #c8cefa;
 }
 
-/* Align text content to center within each grid cell */
+
 .query-list-item p {
     margin: 0;
     text-align: center;

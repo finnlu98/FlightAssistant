@@ -3,7 +3,7 @@
 .flight-container {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Full viewport height */
+    height: 100vh; 
     padding: 20px;
     box-sizing: border-box;
     margin-left: 100px;
@@ -11,9 +11,8 @@
 
 }
 
-/* Heading styling */
 h1 {
-    margin: 0 0 1px 0; /* Bottom margin to separate the heading from the table */
+    margin: 0 0 1px 0; 
     text-align: center;
 }
 
@@ -31,79 +30,236 @@ h1 {
     width: 100%;
     padding: 0 2rem; 
     margin: 0 0 10px 0; 
-    font-weight: bold;               /* Bold text */
+    font-weight: bold;              
 
 }
 
 .edit-button {
-    background-color: #9da9ff;       /* Blue background color */
-    color: #fff;                     /* White text color */
-    padding: 10px 20px;              /* Top & Bottom padding, Left & Right padding */
-    font-size: 16px;                 /* Font size */
-    font-weight: bold;               /* Bold text */
-    border: none;                    /* Remove default border */
-    border-radius: 5px;              /* Rounded corners */
-    cursor: pointer;                 /* Pointer cursor on hover */
-    transition: background-color 0.3s ease, transform 0.1s ease; /* Smooth transitions */
+    background-color: #9da9ff;       
+    color: #fff;                     
+    padding: 10px 20px;              
+    font-size: 16px;                 
+    font-weight: bold;               
+    border: none;                    
+    border-radius: 5px;              
+    cursor: pointer;                 
+    transition: background-color 0.3s ease, transform 0.1s ease; 
 }
 
 .edit-button:hover {
-    background-color: #a9b2e8;       /* Darker blue on hover */
-    transform: translateY(-2px);     /* Slight lift effect */
+    background-color: #a9b2e8;       
+    transform: translateY(-2px);     
 }
 
 .edit-button:active {
-    background-color: #8f99d6;       /* Even darker blue when clicked */
-    transform: translateY(0);        /* Reset lift effect */
+    background-color: #8f99d6;       
+    transform: translateY(0);        
 }
 
 
-
-/* Table wrapper to create a scrollable area */
 .table-wrapper {
-    flex: 1; /* Take up remaining height after the heading */
+    flex: 1;
     width: 100%;
-    overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #f9f9f9; /* Border around the table wrapper */
-    
-    margin-bottom: 20px; /* Margin at the bottom */
-    border-radius: 5px; /* Optional: Rounded corners */
+    overflow-y: auto; 
+    border: 3px solid #f9f9f9; 
+    margin-bottom: 20px; 
+    border-radius: 5px; 
 }
 
-table {
+.flight-list {
+    margin: 0;
+    list-style: none;
+    padding: 0;
     width: 100%;
-    border-collapse: collapse;
 }
 
-/* Table headers */
-th {
-    background-color: #ebb9d1;
+.flight-list li {
+    height: 3.5rem;
+}
 
-    border-bottom: 2px solid #f9f9f9;
-    padding: 10px;
-    text-align: left;
-    position: sticky;
-    top: 0; /* Keep headers sticky when scrolling */
+.flight-list-item {
+    display: grid;
+    grid-template-columns: .5fr 1fr 1fr 3fr 1fr 1.5fr ; 
+    gap: 20px;                            
+    align-items: center;                  
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #fafafa;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 0.25rem;
+}
+
+.flight-list-item.header {
+    font-weight: bold;
+    background-color: #c8cefa;
+    position: sticky; 
+    top: 0; 
     z-index: 1;
-}
-
-/* Table rows */
-td {
-    border: 2px solid #f9f9f9;
-    padding: 10px;
-    text-align: left;
 
 }
 
+.summary-sub-text {
+    color:#a1a0a0;
+    font-size: small;
+}
 
-.priceCell {
+
+.go-button {
+    width: 50%;
+    background-color: #9da9ff;       
+    color: #fff;                     
+    padding: 5px 10px;              
+    font-weight: bold;               
+    border: none;                    
+    border-radius: 5px;              
+    cursor: pointer;                 
+    transition: background-color 0.3s ease, transform 0.1s ease; 
+    position: relative;
+
+}
+
+.low-price::after {
+    content: "★"; 
+    font-size: 12px; 
+    color: #ffcc00; 
+    position: absolute;
+    bottom: .2rem; 
+    right: 0; 
+}
+
+.high-price::after {
+    content: "⚠";
+    font-size: 12px; 
+    color: #e74c3c; 
+    position: absolute;
+    top: .25; 
+    right: 0; 
+}
+
+.go-button:hover {
+    background-color: #a9b2e8;       
+    transform: translateY(-2px);     
+}
+
+.go-button:active {
+    background-color: #8f99d6;       
+    transform: translateY(0);        
+}
+
+
+
+
+.flight-line {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;       
-    border: 1px solid #f9f9f9;
-           
+    flex-direction: column; 
+    align-items: center; 
+    width: 95%; 
+}
+
+
+.line-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    width: 100%; 
+    position: relative;
+}
+
+
+.line {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    
+
+    width: 80%; 
+    height: 1px; 
+    background-color: #8f99d6;
+    position: relative;
+} 
+
+
+
+.line::before,
+.line::after {
+    content: "";
+    position: absolute;
+    width: .5rem; 
+    height: .5rem; 
+    background-color: #8f99d6; 
+    border-radius: 50%; 
+    top: 50%; 
+    transform: translateY(-50%); 
+}
+
+.line::before {
+    left: 0; 
+}
+
+.line::after {
+    right: 0; 
+}
+
+
+.line-part.grey {
+    height: 100%; 
+    background-color: #ccc; 
+    margin: auto; 
+    position: relative;
 
 }
+
+.line-part.grey::before,
+.line-part.grey::after
+ {
+    content: "";
+    position: absolute;
+    width: .1rem; 
+    height: .5rem;
+    background-color: #8f99d6; 
+    transform: translateY(-50%); 
+}
+
+.line-part.grey::before {
+    left: 0; 
+}
+
+.line-part.grey::after {
+    right: 0; 
+}
+
+
+.line-time-grey {
+    position: absolute; 
+    bottom: -.9rem; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    font-size: x-small; 
+    white-space: nowrap; 
+}
+
+
+
+.line-start,
+.line-end {
+    font-size: 14px; 
+    font-weight: bold; 
+    color: #000; 
+    white-space: nowrap; 
+}
+
+.line-start {
+    margin-right: .5rem;
+}
+
+.line-end {
+    margin-left: .5rem;
+}
+
+
+
+
+
 
 
 .popup-overlay {
@@ -119,7 +275,6 @@ td {
     z-index: 1000;
 }
 
-/* Popup content box */
 .popup-content {
     background-color: #ebb9d1;
     padding: 20px;
@@ -144,38 +299,12 @@ td {
 
 .close-button:hover {
     color: #e74c3c;
-    transform: scale(1.2);     /* Slightly scale up the icon for a subtle effect */
+    transform: scale(1.2);   
     filter: drop-shadow(0 2px 4px rgba(220, 20, 2, 0.3));
 }
 
-.low-price {
-    border-left: 5px solid #28a745;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.low-price .priceCell {
-    color: #28a745;
-}
 
 
-.high-price {
-    border-left: 5px solid #e74c3c;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.high-price .priceCell {
-    color: #e74c3c;
-}
 
 
-.priceCell {
-    position: relative;
-}
 
-.priceText {
-    position: relative;
-    display: inline-block; /* To ensure the pseudo-element is sized to the text */
-    padding-bottom: 4px;   /* Optional padding to give space between text and line */
-}

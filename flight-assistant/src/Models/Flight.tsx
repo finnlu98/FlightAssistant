@@ -1,3 +1,5 @@
+import { Layover } from "./Layover"
+
 export interface Flight {
     id: string
     departureAirport: string
@@ -12,6 +14,7 @@ export interface Flight {
     hasTargetPrice : boolean
     createdAt: Date
     priceRange: PriceRange
+    layovers: Layover[]
 }
 
 export enum PriceRange {
