@@ -71,6 +71,7 @@ namespace flight_assistant_backend.Api.Controller
         public async Task ClosestTripAsync()
         {
             var closestDestination = _context.TravelDestinations
+                .Where(c => c.TravelDate >= DateTime.Now.Date)
                 .OrderBy(c => Math.Abs((c.TravelDate - DateTime.Now).TotalDays))
                 .FirstOrDefault();
 

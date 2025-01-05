@@ -20,17 +20,23 @@ const NextTravelDestination: React.FC<NextTravelDestination> = ({nextDestination
           try {
             const travelDestinations = await TravelDestinationService.getTravelDestinations();    
             
-            if(travelDestinations.length === 0) {
+            if (travelDestinations.length === 0) {
                 return;
             }
             
-            const closestDestination = travelDestinations.reduce((closest, destination) => 
-                moment(destination.travelDate).diff(moment(), 'days') < moment(closest.travelDate).diff(moment(), 'days') ? destination : closest
+            const upcomingDestinations = travelDestinations.filter(destination => moment(destination.travelDate).isAfter(moment()));
+            
+            if (upcomingDestinations.length === 0) {
+                return;
+            }
+            
+            const closestDestination = upcomingDestinations.reduce((closest, destination) => 
+                moment(destination.travelDate).diff(moment(), 'days') < moment(closest.travelDate).diff(moment(), 'days') 
+                ? destination 
+                : closest
             );
-
             
             setPlannedTrip(closestDestination.country.name, closestDestination.travelDate);
-            
 
           } catch (err) {
             console.error('Error fetching visited countries:', err);

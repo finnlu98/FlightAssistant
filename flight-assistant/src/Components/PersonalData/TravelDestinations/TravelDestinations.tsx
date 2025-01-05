@@ -72,7 +72,7 @@ const TravelDestinations: React.FC = () => {
 
     const handleDeleteClick = async (code3 :string, travelDate: string ) => {
 
-        await TravelDestinationService.deleteTravelDestination(code3, travelDate);
+        await TravelDestinationService.deleteTravelDestination(code3, travelDate ? moment(new Date(travelDate)).format("YYYY-MM-DD") : '');
 
         setTrips((prevTrips) => 
             prevTrips.filter(

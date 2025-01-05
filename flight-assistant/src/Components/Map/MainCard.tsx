@@ -20,29 +20,28 @@ const MainCard: React.FC = () => {
         setNextDateTravel(moment(nextDate, "YYYY/MM/DD"));
     }
 
-    // Workaround to update text every day
-      useEffect(() => {
-        const shouldReload = () => {
-          const now = moment();
-          return (
-            now.hour() === 2 &&
-            now.minute() === 0 &&
-            now.second() === 0
-          );
-        };
+    useEffect(() => {
+      const shouldReload = () => {
+      const now = moment();
+        return (
+          now.hour() === 2 &&
+          now.minute() === 0 &&
+          now.second() === 0
+        );
+      };
     
-        const reloadAtTargetHour = () => {
-          if (shouldReload()) {
-            window.location.reload();
-          }
-        };
+      const reloadAtTargetHour = () => {
+        if (shouldReload()) {
+          window.location.reload();
+        }
+      };
     
-        reloadAtTargetHour();
+      reloadAtTargetHour();
     
-        const intervalId = setInterval(reloadAtTargetHour, 1000);
+      const intervalId = setInterval(reloadAtTargetHour, 1000);
     
-        return () => clearInterval(intervalId);
-      }, []);
+      return () => clearInterval(intervalId);
+     }, []);
 
     return (
         <div>
