@@ -46,23 +46,10 @@ const NextTravelDestination: React.FC<NextTravelDestination> = ({nextDestination
         fetchTravelDestinations();
       }, []);
 
-    const currentDate = moment();
 
-    const diffInDays = nextDateTravel.diff(currentDate, 'days');
-    const diffInWeeks = nextDateTravel.diff(currentDate, 'weeks');
-    const diffInMonths = nextDateTravel.diff(currentDate, 'months');
+    const diffInDays = nextDateTravel.diff(moment(), 'days');
 
-    let timeToDisplay;
-
-    if (diffInDays === 0) {
-        timeToDisplay = "";
-    } else if (diffInMonths >= 1) {
-        timeToDisplay = `${diffInMonths} month${diffInMonths > 1 ? 's' : ''}`;
-    } else if (diffInWeeks >= 2) {
-        timeToDisplay = `${diffInWeeks} week${diffInWeeks > 1 ? 's' : ''}`;
-    } else {
-        timeToDisplay = `${diffInDays} day${diffInDays > 1 ? 's' : ''}`;
-    }
+    const timeToDisplay = `${diffInDays} day${diffInDays > 1 ? 's' : ''}`;
 
     return (
         <div>
