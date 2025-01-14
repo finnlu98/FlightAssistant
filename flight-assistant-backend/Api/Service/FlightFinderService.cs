@@ -46,6 +46,8 @@ public class FlightFinderService {
 
             List<FlightQueryParse> queries = await QueryBuilder();
 
+            var foundTargetPrice = false;
+
             foreach (var query in queries)
             {
                 try
@@ -61,7 +63,7 @@ public class FlightFinderService {
 
                     if(parsedFlights.Select(f => f.Flight).Any(f => f.HasTargetPrice)) {
                         await _hubContext.Clients.All.SendAsync("NotifyTargetPrice", new { notifyTargetPrice = true });
-                        await NotifyHomeAssistant();
+                        foundTargetPrice = true;
                     }
 
                     await _dbContext.SaveChangesAsync();
@@ -72,6 +74,10 @@ public class FlightFinderService {
                 }
 
                 await Task.Delay(2000);
+            }
+
+            if(foundTargetPrice) {
+                await NotifyHomeAssistant();
             }
 
             return true;
