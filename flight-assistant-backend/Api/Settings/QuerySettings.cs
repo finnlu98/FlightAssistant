@@ -7,5 +7,4 @@ public class QuerySettings
     public int deleteNOld { get; set; }
     public int QueryAtHour { get; set; }
     public string? ApiKey {get; set;}
-
 }

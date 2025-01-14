@@ -38,6 +38,11 @@ namespace flight_assistant_backend
             builder.Services.AddHttpClient<FlightFinderService>();
             builder.Services.AddScoped<FlightFinderService>();
 
+            builder.Services.AddHttpClient<HomeAssistantService>();
+            builder.Services.AddScoped<HomeAssistantService>();
+
+
+
             builder.Services.AddHostedService<FlightDataScheduler>();
 
 
@@ -53,6 +58,7 @@ namespace flight_assistant_backend
             builder.Services.AddTransient<DatabaseInitializer>();
 
             builder.Services.Configure<QuerySettings>(builder.Configuration.GetSection("QuerySettings"));
+            builder.Services.Configure<HomeAssistantSettings>(builder.Configuration.GetSection("HomeAssistantSettings"));
             
             var app = builder.Build();
 

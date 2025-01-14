@@ -19,18 +19,23 @@ public class FlightFinderService {
 
     private readonly IHubContext<MapHub> _hubContext;
 
+    private readonly IServiceProvider _serviceProvider;
+
+
     public FlightFinderService(
         HttpClient httpClient, 
         ApplicationDbContext dbContext, 
         ILogger<FlightFinderService> logger, 
         IHubContext<MapHub> hubContext, 
-        IOptions<QuerySettings> querySettings)
+        IOptions<QuerySettings> querySettings,
+        IServiceProvider serviceProvider)
     {
         _httpClient = httpClient;
         _dbContext = dbContext;
         _logger = logger;
         _hubContext = hubContext;
         _querySettings = querySettings.Value;
+        _serviceProvider = serviceProvider;
     }
 
     public async Task<bool> GetFlightData()
@@ -46,13 +51,19 @@ public class FlightFinderService {
                 try
                 {
                     string jsonContent = await GetFlights(query.SearchUrl);
-                    //string jsonContent = await GetMockData();
-                    var parsedFlights = await ParseFlights(jsonContent, query.TargetPrice);
+                    // string jsonContent = await GetMockData();
+
+                    var parsedFlights =  ParseFlights(jsonContent, query.TargetPrice);
                     
                     await _dbContext.Flights.AddRangeAsync(parsedFlights.Select(f => f.Flight));
 
                     await _dbContext.Layovers.AddRangeAsync(parsedFlights.Where(f => f.Layovers != null).SelectMany(f => f.Layovers!));
-                   
+
+                    if(parsedFlights.Select(f => f.Flight).Any(f => f.HasTargetPrice)) {
+                        await _hubContext.Clients.All.SendAsync("NotifyTargetPrice", new { notifyTargetPrice = true });
+                        await NotifyHomeAssistant();
+                    }
+
                     await _dbContext.SaveChangesAsync();
                 }
                 catch (Exception ex)
@@ -77,7 +88,7 @@ public class FlightFinderService {
         return false;
     }
 
-    private async Task<List<ParsedFlight>> ParseFlights(string jsonContent, float targetPrice)
+    private List<ParsedFlight> ParseFlights(string jsonContent, float targetPrice)
     {
 
         Search search = JsonSerializer.Deserialize<Search>(jsonContent, new JsonSerializerOptions
@@ -96,11 +107,11 @@ public class FlightFinderService {
 
         if(searchUrl != null) {
             if(bestFlights != null && bestFlights.Count > 0 ) {
-                flights.AddRange(await ParseFlightType(bestFlights.Cast<FlightBase>().ToList(), targetPrice, searchUrl, priceInsights));
+                flights.AddRange(ParseFlightType(bestFlights.Cast<FlightBase>().ToList(), targetPrice, searchUrl, priceInsights));
             }
 
             if(otherFlights != null && otherFlights.Count > 0 && bestFlights == null) {
-                flights.AddRange(await ParseFlightType(otherFlights.Cast<FlightBase>().ToList(), targetPrice, searchUrl, priceInsights));
+                flights.AddRange(ParseFlightType(otherFlights.Cast<FlightBase>().ToList(), targetPrice, searchUrl, priceInsights));
             }
         }
 
@@ -112,7 +123,7 @@ public class FlightFinderService {
     }
 
 
-        private async Task<List<ParsedFlight>> ParseFlightType(List<FlightBase> foundFlights, float targetPrice, string searchUrl, PriceInsights priceInsights) {
+        private List<ParsedFlight> ParseFlightType(List<FlightBase> foundFlights, float targetPrice, string searchUrl, PriceInsights priceInsights) {
             List<ParsedFlight> parsedFlights = [];
 
             foreach (var foundFlight in foundFlights)
@@ -135,7 +146,7 @@ public class FlightFinderService {
                         SearchUrl = searchUrl,
                         NumberLayovers = 0,
                         LayoverDuration = 0,
-                        HasTargetPrice = await EvaluatePrice(foundFlight.price, targetPrice),
+                        HasTargetPrice = EvaluatePrice(foundFlight.price, targetPrice),
                         CreatedAt = DateTime.Now,
                         PriceRange = ClassifyPrice(foundFlight.price, priceInsights)
                     
@@ -257,15 +268,8 @@ public class FlightFinderService {
     }
 
 
-    public async Task<bool> EvaluatePrice(int price, float targetPrice) {
-        
-        if(price <= targetPrice) {
-            await _hubContext.Clients.All.SendAsync("NotifyTargetPrice", new { notifyTargetPrice = true });
-            
-            return true;
-        }
-        
-        return false;
+    public bool EvaluatePrice(int price, float targetPrice) {
+        return price <= targetPrice;
     }
 
     public PriceRange ClassifyPrice(int price, PriceInsights priceInsights) {
@@ -321,5 +325,18 @@ public class FlightFinderService {
         await _dbContext.SaveChangesAsync();
 
         _logger.LogInformation($"Removed {oldFlights.Count} flight queries older than 15 days.");
+    }
+
+    public async Task NotifyHomeAssistant() {
+        try
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var homeAssistantService = scope.ServiceProvider.GetRequiredService<HomeAssistantService>();
+            await homeAssistantService.PublishFoundTargetPrice();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while notifying Home Assistant.");
+        }
     }
 }
