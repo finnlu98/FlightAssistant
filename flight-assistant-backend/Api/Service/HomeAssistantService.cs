@@ -25,12 +25,12 @@ public class HomeAssistantService {
 
             if(_homeAssistantSettings.Value.SendNotifications) {
                 var url = $"{_homeAssistantSettings.Value.Url}/api/events/FOUNDTARGETPRICE";
+                
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
 
-                _httpClient.DefaultRequestHeaders.Clear();
-                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_homeAssistantSettings.Value.Token}");
-                var response = await _httpClient.PostAsync(url, null);
-                _httpClient.DefaultRequestHeaders.Clear();
+                request.Headers.Add("Authorization", $"Bearer {_homeAssistantSettings.Value.Token}");
 
+                var response = await _httpClient.SendAsync(request);
 
                 if (response.IsSuccessStatusCode) {
                     _logger.LogInformation("Successfully sent found price.");
