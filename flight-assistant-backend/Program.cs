@@ -41,10 +41,7 @@ namespace flight_assistant_backend
             builder.Services.AddHttpClient<HomeAssistantService>();
             builder.Services.AddScoped<HomeAssistantService>();
 
-
-
             builder.Services.AddHostedService<FlightDataScheduler>();
-
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -71,8 +68,6 @@ namespace flight_assistant_backend
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
 
             app.MapControllers();
 
