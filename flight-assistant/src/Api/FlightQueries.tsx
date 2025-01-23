@@ -1,8 +1,9 @@
 import axios from "axios";
 import { FlightQuery } from "../Models/FlightQuery";
 import moment from "moment";
+import { UrlBuilder } from "./UrlBuilder";
 
-const API_BASE_URL = `${process.env.REACT_APP_SERVER_API_URL}/flightqueries`;
+const API_BASE_URL = `${UrlBuilder.getBaseUrl()}/flightqueries`;
 
 const FlightQueryService = {
   getFlightQueries: async (): Promise<FlightQuery[]> => {

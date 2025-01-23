@@ -1,7 +1,8 @@
 import axios from "axios";
 import { TravelDestination } from "../Models/TravelDestination";
+import { UrlBuilder } from "./UrlBuilder";
 
-const API_BASE_URL = `${process.env.REACT_APP_SERVER_API_URL}/traveldestinations`;
+const API_BASE_URL = `${UrlBuilder.getBaseUrl()}/traveldestinations`;
 
 
 

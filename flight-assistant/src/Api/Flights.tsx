@@ -1,7 +1,8 @@
 import axios from "axios";
 import { Flight } from "../Models/Flight";
+import { UrlBuilder } from "./UrlBuilder";
 
-const API_BASE_URL = `${process.env.REACT_APP_SERVER_API_URL}/flights`;
+const API_BASE_URL = `${UrlBuilder.getBaseUrl()}/flights`;
 
 const FlightService = {
   getFlights: async (): Promise<Flight[]> => {

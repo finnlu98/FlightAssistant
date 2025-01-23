@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { Country } from '../Models/Country';
+import { UrlBuilder } from './UrlBuilder';
 
-const API_BASE_URL = `${process.env.REACT_APP_SERVER_API_URL}/countries`;
+const API_BASE_URL = `${UrlBuilder.getBaseUrl()}/countries`;
 
 const CountryService = {
   getCountries: async (): Promise<Country[]> => {
