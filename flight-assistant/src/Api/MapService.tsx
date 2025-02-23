@@ -3,7 +3,6 @@ import { UrlBuilder } from './UrlBuilder';
 
 const MAP_CONNECTION_URL = `${UrlBuilder.getMapUrl()}`;
 
-const MAP_CONNECTION_URL = `${process.env.REACT_APP_SERVER_MAP_URL}`;
 
 export class MapService {
     private connection: signalR.HubConnection;
