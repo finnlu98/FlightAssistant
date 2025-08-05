@@ -117,7 +117,8 @@ const TravelDestinations: React.FC = () => {
                             onChange={(e) => setSelectedDate(e.target.value)}
                             className="date-picker"
                         />
-                        <FaRegPlusSquare 
+                        <FaRegPlusSquare
+                            className='add-icon' 
                             size={50} 
                             color="white"
                             onClick={

@@ -92,3 +92,14 @@
 .delete-icon:hover {
     color: red; 
 }
+
+.add-icon {
+    transition: color 0.2s ease, transform 0.2s ease; 
+    cursor: pointer;           
+}
+
+.add-icon:hover {
+    color: green;             
+    transform: scale(1.2);    
+    filter: drop-shadow(0 2px 4px rgba(0, 128, 0, 0.3)); 
+}
