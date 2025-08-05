@@ -55,14 +55,12 @@ public class FlightFinderService {
                     var parsedFlights =  ParseFlights(jsonContent, query.TargetPrice);
                     
                     await _dbContext.Flights.AddRangeAsync(parsedFlights.Select(f => f.Flight));
-
                     await _dbContext.Layovers.AddRangeAsync(parsedFlights.Where(f => f.Layovers != null).SelectMany(f => f.Layovers!));
 
                     if (parsedFlights.Select(f => f.Flight).Any(f => f.HasTargetPrice))
                     {
                         await _hubContext.Clients.All.SendAsync("NotifyTargetPrice", new { notifyTargetPrice = true });
                         foundTargetPrice = true;
-                        await NotifyHomeAssistant();
                     }
 
                     await _dbContext.SaveChangesAsync();
@@ -73,6 +71,11 @@ public class FlightFinderService {
                 }
 
                 await Task.Delay(2000);
+            }
+
+            if (foundTargetPrice)
+            {
+                await NotifyHomeAssistant();
             }
 
             return true;
