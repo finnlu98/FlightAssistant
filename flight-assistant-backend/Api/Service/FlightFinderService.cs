@@ -12,13 +12,10 @@ namespace flight_assistant_backend.Api.Service;
 public class FlightFinderService {
 
     private readonly QuerySettings _querySettings;
-
     private readonly HttpClient _httpClient;
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<FlightFinderService> _logger;
-
     private readonly IHubContext<MapHub> _hubContext;
-
     private readonly IServiceProvider _serviceProvider;
 
 
@@ -61,9 +58,11 @@ public class FlightFinderService {
 
                     await _dbContext.Layovers.AddRangeAsync(parsedFlights.Where(f => f.Layovers != null).SelectMany(f => f.Layovers!));
 
-                    if(parsedFlights.Select(f => f.Flight).Any(f => f.HasTargetPrice)) {
+                    if (parsedFlights.Select(f => f.Flight).Any(f => f.HasTargetPrice))
+                    {
                         await _hubContext.Clients.All.SendAsync("NotifyTargetPrice", new { notifyTargetPrice = true });
                         foundTargetPrice = true;
+                        await NotifyHomeAssistant();
                     }
 
                     await _dbContext.SaveChangesAsync();
@@ -74,10 +73,6 @@ public class FlightFinderService {
                 }
 
                 await Task.Delay(2000);
-            }
-
-            if(foundTargetPrice) {
-                await NotifyHomeAssistant();
             }
 
             return true;
@@ -200,7 +195,7 @@ public class FlightFinderService {
         return parsedLayovers;
     }
 
-    public async Task<List<FlightQueryParse>> QueryBuilder() {
+    private async Task<List<FlightQueryParse>> QueryBuilder() {
         var queries = await _dbContext.FlightQueries.ToListAsync();
 
         var API_KEY = _querySettings.ApiKey;
@@ -260,7 +255,7 @@ public class FlightFinderService {
         }
     }
 
-    public async Task<string> GetMockData() {
+    private async Task<string> GetMockData() {
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Api/Service/mockDataOther.json");
 
             if (!File.Exists(filePath))
@@ -274,11 +269,11 @@ public class FlightFinderService {
     }
 
 
-    public bool EvaluatePrice(int price, float targetPrice) {
+    private bool EvaluatePrice(int price, float targetPrice) {
         return price <= targetPrice;
     }
 
-    public PriceRange ClassifyPrice(int price, PriceInsights priceInsights) {
+    private PriceRange ClassifyPrice(int price, PriceInsights priceInsights) {
         
         List<int> priceRange = [.. priceInsights.typical_price_range];
 
@@ -311,8 +306,7 @@ public class FlightFinderService {
         }
     }
     
-
-    public async Task DeleteOldFlights()
+    private async Task DeleteOldFlights()
     {
         DateTime cutoffDate = DateTime.Now.AddDays(-_querySettings.deleteNOld);
 
@@ -333,7 +327,7 @@ public class FlightFinderService {
         _logger.LogInformation($"Removed {oldFlights.Count} flight queries older than 15 days.");
     }
 
-    public async Task NotifyHomeAssistant() {
+    private async Task NotifyHomeAssistant() {
         try
         {
             using var scope = _serviceProvider.CreateScope();
