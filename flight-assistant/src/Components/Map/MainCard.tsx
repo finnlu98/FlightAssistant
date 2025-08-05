@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import WorldMap from './WorldMap/WorldMap';
 import LiveClock from './LiveClock/LiveClock';
 import { IoIosNotifications } from "react-icons/io";
@@ -6,42 +6,43 @@ import { GiIsland } from "react-icons/gi";
 import './MainCard.css';
 import NextTravelDestination from './NextTravelDestination/NextTravelDestination';
 import moment, { Moment } from 'moment';
-
+import MapService from '../../Api/MapService';
 
 const MainCard: React.FC = () => {
 
-    const [countriesVisited, setCountriesVisited] = useState<number>(0)
+    const mapService = useRef<MapService>(new MapService());
+
+    const [numCountriesVisited, setNumCountriesVisited] = useState<number>(0)
     const [foundTargetPrice, setFoundTargetPrice] = useState<boolean>(false)
-    const [nextDestination, setNextDestionation] = useState<string>("");
-    const [nextDateTravel, setNextDateTravel] = useState<Moment>(moment());
-    
-    function setPlannedTrip(nextDestination : string, nextDate : Date) {
-        setNextDestionation(nextDestination);
-        setNextDateTravel(moment(nextDate, "YYYY/MM/DD"));
-    }
 
     useEffect(() => {
-      const shouldReload = () => {
-      const now = moment();
-        return (
-          now.hour() === 2 &&
-          now.minute() === 0 &&
-          now.second() === 0
-        );
-      };
-    
-      const reloadAtTargetHour = () => {
-        if (shouldReload()) {
-          window.location.reload();
-        }
-      };
-    
-      reloadAtTargetHour();
-    
-      const intervalId = setInterval(reloadAtTargetHour, 1000);
-    
-      return () => clearInterval(intervalId);
+      const timeoutId = scheduleReload();
+      return () => clearInterval(timeoutId);
      }, []);
+
+    const scheduleReload = () => {
+      const now = moment();
+      let nextReload = moment().hour(2).minute(0).second(0);
+    
+      if (now.isAfter(nextReload)) {
+        nextReload.add(1, "day");
+      }
+    
+      const msUntilReload = nextReload.diff(now);
+    
+      const timeoutId = setTimeout(() => {
+        window.location.reload();
+      }, msUntilReload);
+    
+      return timeoutId;
+    };
+
+    useEffect(() => {
+        mapService.current.onNotifyTargetPrice(setFoundTargetPrice);
+        return () => {
+          mapService.current.stopConnection();
+        };
+      }, []);
 
     return (
         <div>
@@ -54,24 +55,16 @@ const MainCard: React.FC = () => {
                         </div>
                     </div>     
                 </div>
-                <WorldMap 
-                    setCountriesVisited={setCountriesVisited} 
-                    setFoundTargetPrice={setFoundTargetPrice}
-                    setPlannedTrip={setPlannedTrip}/>
+                <WorldMap setNumCountriesVisited={setNumCountriesVisited} mapService={mapService}/>
                 <div className="horizontal-bar-bottom">
                     <div className="horizontal-bar-bottom-elements">
-                        <NextTravelDestination 
-                            nextDestination={nextDestination} 
-                            nextDateTravel={nextDateTravel}
-                            setPlannedTrip={setPlannedTrip}/>
-                        
-                        <h5> {countriesVisited} <GiIsland /></h5>
+                        <NextTravelDestination mapService={mapService}/>
+                        <h5> {numCountriesVisited} <GiIsland /></h5>
                     </div>     
                 </div>
             </div>
         </div>
     );
 };
-
 
 export default MainCard;

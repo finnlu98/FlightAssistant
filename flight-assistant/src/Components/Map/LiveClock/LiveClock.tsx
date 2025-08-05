@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-
-
 const LiveClock = () => {
     const [time, setTime] = useState(new Date());
 

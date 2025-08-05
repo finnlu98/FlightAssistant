@@ -10,6 +10,10 @@ const VisitCountries: React.FC = () => {
     const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
+    useEffect(() => {
+        fetchVisitedCountries();
+      }, []);
+    
     const handleCheckboxChange = (country: string, visited : boolean) => {
         setSelectedCountries((prevSelected) =>
             prevSelected.includes(country)
@@ -20,26 +24,20 @@ const VisitCountries: React.FC = () => {
         CountryService.setVisitedCountry(country, visited)
     };
 
-    useEffect(() => {
-        const fetchVisitedCountries = async () => {
-          try {
-            const visitedCountries = await CountryService.getCountries();
-            const filteredCountries = visitedCountries
-                                        .filter(country => country.visited === true)
-                                        .map(country => country.code3);
-            
-            setSelectedCountries(filteredCountries);
-          } catch (err) {
-            console.error('Error fetching visited countries:', err);
-          }
-        };
+    const fetchVisitedCountries = async () => {
+        try {
+          const visitedCountries = await CountryService.getCountries();
+          const filteredCountries = visitedCountries
+                                      .filter(country => country.visited === true)
+                                      .map(country => country.code3);
+          
+          setSelectedCountries(filteredCountries);
+        } catch (err) {
+          console.error('Error fetching visited countries:', err);
+        }
+      };
     
-        fetchVisitedCountries();
-      }, []);
-
-        const filteredCountries = countries.filter((country) =>
-        country.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredCountries = countries.filter(country => country.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
         <div className="country-selector">
@@ -55,7 +53,6 @@ const VisitCountries: React.FC = () => {
                 className="search-input-selector"
                 />
             </div>
-            
 
             <div className="countries-scrollable-container">
                 <ul className="country-list">

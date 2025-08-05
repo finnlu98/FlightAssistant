@@ -7,14 +7,6 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaRegPlusSquare } from "react-icons/fa";
 
 
-
-
-
-
-interface FlightQueries {
-    
-}
-
 const FlightQueries: React.FC = () => {
 
     const [flightQueries, setFlightQueries] = useState<FlightQuery[]>([]);
@@ -105,8 +97,6 @@ const FlightQueries: React.FC = () => {
         }
         
     };
-
-
 
     return (
         <div>

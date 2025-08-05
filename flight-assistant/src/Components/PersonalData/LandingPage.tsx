@@ -9,7 +9,7 @@ const LandingPage: React.FC = () => {
 
     return (
         <div className="landing-page-wrapper">
-        <h1 className="title">Pernille`s Flight Assistant 3000</h1>
+        <h1 className="title">Flight Assistant 3000</h1>
         <FaPlaneDeparture className="plane-icon" />
         <div className="landing-page-container">
             <div>

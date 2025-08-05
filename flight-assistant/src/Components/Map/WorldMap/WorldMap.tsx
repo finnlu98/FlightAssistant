@@ -3,55 +3,39 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps"
 import World from './World.json';
 import './WorldMap.css';
 import CountryService from '../../../Api/Countries';
-import * as signalR from '@microsoft/signalr';
 import MapService from '../../../Api/MapService';
 
-
-
 interface WorldMapProps {
-    setCountriesVisited: React.Dispatch<React.SetStateAction<number>>;
-    setFoundTargetPrice: React.Dispatch<React.SetStateAction<boolean>>;
-    setPlannedTrip: (nextDestination :string, nextTravelDate : Date) => void
-
-
+    setNumCountriesVisited: React.Dispatch<React.SetStateAction<number>>;
+    mapService: React.MutableRefObject<MapService>;
 }
 
-const WorldMap: React.FC<WorldMapProps> = ({setCountriesVisited, setFoundTargetPrice, setPlannedTrip}) => {
+const NOT_VISITED_COLOR: string = "#f792c6"
+const VISITED_COLOR: string = "#c8cefa"
+const STROKE_COLOR: string = "#fac8e2"
+
+const WorldMap: React.FC<WorldMapProps> = ({setNumCountriesVisited, mapService}) => {
 
     const [countries, setCountries] = useState<string[]>([]);
 
-    var notVisited = "#f792c6"
-    var visited = "#c8cefa"
-
     useEffect(() => {
-        const fetchVisitedCountries = async () => {
-          try {
-            const visitedCountries = await CountryService.getCountries();
-            const filteredCountries = visitedCountries
-                                        .filter(country => country.visited === true)
-                                        .map(country => country.code3);
-            setCountries(filteredCountries);
-            setCountriesVisited(filteredCountries.length)
-          } catch (err) {
-            console.error('Error fetching visited countries:', err);
-          }
-        };
-    
         fetchVisitedCountries();
+        mapService.current.onCountryUpdated(updateMap);
       }, []);
 
+    const fetchVisitedCountries = async () => {
+        try {
+          const countries = await CountryService.getCountries();
+          const visitedCountries = countries
+                                      .filter(country => country.visited === true)
+                                      .map(country => country.code3);
 
-      useEffect(() => {
-        var mapService =new MapService();
-        
-        mapService.onCountryUpdated(updateMap);
-        mapService.onNotifyTargetPrice(setFoundTargetPrice);
-        mapService.onNotifyPlannedTrip(setPlannedTrip)
-
-        return () => {
-          mapService.stopConnection();
-        };
-      }, []);
+          setCountries(visitedCountries);
+          setNumCountriesVisited(visitedCountries.length)
+        } catch (err) {
+          console.error('Error fetching visited countries:', err);
+        }
+     };
 
     const updateMap = (code3: string, visited: boolean) => {
         setCountries((prevCountries) => {
@@ -67,12 +51,11 @@ const WorldMap: React.FC<WorldMapProps> = ({setCountriesVisited, setFoundTargetP
                 updatedCountries = prevCountries.filter((country) => country !== code3);
             }
     
-            setCountriesVisited(updatedCountries.length);
+            setNumCountriesVisited(updatedCountries.length);
     
             return updatedCountries;
         });
     };
-
 
     return (
         <div className='container'>
@@ -81,13 +64,12 @@ const WorldMap: React.FC<WorldMapProps> = ({setCountriesVisited, setFoundTargetP
                     {({ geographies }) =>
                         geographies.map((geo) => {
                             const isVisited = countries.includes(geo.id); 
-                            
                             return (
                                 <Geography 
                                     key={geo.rsmKey} 
                                     geography={geo} 
-                                    fill={isVisited ? visited : notVisited} 
-                                    stroke="#fac8e2" 
+                                    fill={isVisited ? VISITED_COLOR : NOT_VISITED_COLOR} 
+                                    stroke={STROKE_COLOR} 
                                 />
                             );
                         })
@@ -97,8 +79,5 @@ const WorldMap: React.FC<WorldMapProps> = ({setCountriesVisited, setFoundTargetP
         </div>
     );
 };
-
-
-
 
 export default WorldMap;
